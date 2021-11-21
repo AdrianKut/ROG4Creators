@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
-using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,18 +16,18 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+
         bestDistanceCounter = PlayerPrefs.GetFloat("bestScore", 0);
         UpdateBestScoreText();
     }
 
     void Update()
     {
-        if (!isPaused)
+        if (!isPaused && !isGameOver)
         {
             if (Input.GetKeyDown(KeyCode.P))
                 Pause();
-
-
 
             UpdateTimerText();
         }
@@ -80,7 +79,19 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    [Header("Game Over")]
+    public bool isGameOver = false;
+    public GameObject GameOverObject;
 
+    public void GameOver()
+    {
+        isGameOver = true;
+        Time.timeScale = 0f;
+        GameOverObject.SetActive(true);
+        PlayerPrefs.SetFloat("bestScore", distanceCounter);
+    }
 
+    public void Retry() => SceneManager.LoadScene("Game Scene");
+    public void QuitGame() => SceneManager.LoadScene("Menu");
 
 }
