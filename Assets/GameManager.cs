@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
 
     [Header("Distance Score")]
     public float distanceCounter;
@@ -19,9 +15,25 @@ public class GameManager : MonoBehaviour
     public float bestDistanceCounter;
     public TextMeshProUGUI textBestDistance;
 
+    void Start()
+    {
+        bestDistanceCounter = PlayerPrefs.GetFloat("bestScore", 0);
+        UpdateBestScoreText();
+    }
+
     void Update()
     {
-        UpdateTimerText();
+        if (!isPaused)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+                Pause();
+
+
+
+            UpdateTimerText();
+        }
+
+
     }
 
     private void UpdateTimerText()
@@ -31,6 +43,41 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void UpdateBestScoreText()
+    {
+        textBestDistance.SetText($"BEST: {bestDistanceCounter:F0} M");
+    }
+
+
+    #region Pause Menu
+    [Header("Pause")]
+    public GameObject PauseMenu;
+    public bool isPaused = false;
+    public UnityEvent OnPauseEvent;
+
+    public void Pause()
+    {
+        OnPauseEvent?.Invoke();
+
+        isPaused = true;
+        PauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
+        PauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void BackToMenu()
+    {
+        isPaused = false;
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1f;
+    }
+    #endregion
 
 
 
