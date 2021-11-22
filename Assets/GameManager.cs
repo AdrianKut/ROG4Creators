@@ -78,13 +78,23 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    [Header("LEVEL UI")]
+    public GameObject GameObjectLevelUI;
+
+
 
     [Header("Game Over")]
     public bool isGameOver = false;
     public GameObject GameOverObject;
+    public TextMeshProUGUI FinalScoreText;
+    public TextMeshProUGUI NewHighScoreText;
 
     public void GameOver()
     {
+        GameObjectLevelUI.SetActive(false);
+        FinalScoreText.SetText("YOUR SCORE: \n " + textDistance.text);
+
+
         isGameOver = true;
         Time.timeScale = 0f;
         GameOverObject.SetActive(true);
@@ -92,7 +102,10 @@ public class GameManager : MonoBehaviour
         //Save better distance score
         float currentBestScore = PlayerPrefs.GetFloat("bestScore");
         if (currentBestScore < distanceCounter)
+        {
             PlayerPrefs.SetFloat("bestScore", distanceCounter);
+            NewHighScoreText.SetText("NEW HIGH SCORE!");
+        }
     }
 
     public void Retry() => SceneManager.LoadScene("Game Scene");

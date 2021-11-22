@@ -15,13 +15,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject deathEffect;
     
-    private CharacterController2D player;
+    private GameObject player;
     private Vector3 targetPosition;
     private WaveManager waveManager;
     
     private void Awake()
     {
-        player = FindObjectOfType<CharacterController2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
         waveManager = FindObjectOfType<WaveManager>();
     }
     
