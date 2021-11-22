@@ -88,7 +88,11 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         Time.timeScale = 0f;
         GameOverObject.SetActive(true);
-        PlayerPrefs.SetFloat("bestScore", distanceCounter);
+
+        //Save better distance score
+        float currentBestScore = PlayerPrefs.GetFloat("bestScore");
+        if (currentBestScore < distanceCounter)
+            PlayerPrefs.SetFloat("bestScore", distanceCounter);
     }
 
     public void Retry() => SceneManager.LoadScene("Game Scene");
