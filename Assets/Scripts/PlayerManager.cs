@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -6,21 +7,42 @@ public class PlayerManager : MonoBehaviour
     public float force = 900f;
     public bool isGrounded = true;
 
+    [Header("Audio")]
+    public AudioClip[] audioClip;
+    private AudioSource audioSource;
+    //0 - died
+    //1 - jump
+
     public GameObject JumpEffect;
+    public GameObject DiedEffect;
 
     private Rigidbody2D rb;
     private Animator animator;
 
+
     void Start()
     {
+        GameManager.gameManagerInstance.OnGameOver.AddListener(GameOver);
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void GameOver()
+    {
+        audioSource.PlayOneShot(audioClip[0]);
+        animator.SetBool("isDead", true);
+        var diedEffect = Instantiate(DiedEffect, new Vector3(transform.position.x+0.485f, transform.position.y - 0.30f, transform.position.z), Quaternion.identity);
+        Destroy(diedEffect, 1f);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.gameManagerInstance.isGameOver)
         {
+
+            audioSource.PlayOneShot(audioClip[1]);
             rb.AddForce(Vector2.up * force, ForceMode2D.Force);
             
             var jumpEffect = Instantiate(JumpEffect, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.identity);

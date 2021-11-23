@@ -11,11 +11,6 @@ public class FollowMouse : MonoBehaviour
     
     private Vector3 mousePosition;
     private Vector3 followPointerPosition;
-    
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -25,6 +20,5 @@ public class FollowMouse : MonoBehaviour
         followPointerPosition = (mousePosition + unitTransform.position)/2f;
         followPointerPosition = (followPointerPosition + unitTransform.position) / 2f;
         followPointerTransform.position = followPointerPosition;
-
     }
 }
