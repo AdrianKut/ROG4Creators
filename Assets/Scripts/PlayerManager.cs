@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.gameManagerInstance.OnGameOver.AddListener(GameOver);
+        GameManager.gameManagerInstance.OnGameOverEvent.AddListener(GameOver);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();

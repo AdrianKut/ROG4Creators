@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class RayCastWeapon : MonoBehaviour
@@ -10,7 +9,7 @@ public class RayCastWeapon : MonoBehaviour
     private Transform firePoint;
 
     [SerializeField]
-    private int damage = 40;
+    private static int damage;
 
     [SerializeField]
     private float fireRate = 0.1f;
@@ -30,14 +29,49 @@ public class RayCastWeapon : MonoBehaviour
     [SerializeField]
     private AudioSource shootAudioSource;
 
+    [SerializeField]
+    private AudioClip audioLaserShoot;
+
+    [SerializeField]
+    private AudioClip audioRifleShoot;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
+
     private float timer;
+    private string currentWeapon = "rifle";
+
+     
+
+    public void UseLaser()
+    {
+        damage = 60;
+        currentWeapon = "laser";
+    }
+
+    public void UseRifle() 
+    {
+        damage = 30;
+        currentWeapon = "rifle"; 
+    }
+
+    public static int GetCurrentValueOfDamage() => damage;
+    public void ChangeValueOfFireRate(float value) => fireRate = value;
+
+    private void Start()
+    {
+        UseRifle();
+    }
 
     private void Update()
     {
         if (Input.GetButton("Fire1") && timer <= 0)
         {
             timer = fireRate;
-            StartCoroutine(Shoot());
+            if (currentWeapon == "laser")
+                StartCoroutine(LaserShoot());
+            else if (currentWeapon == "rifle")
+                RifleShoot();
         }
         else
         {
@@ -45,26 +79,34 @@ public class RayCastWeapon : MonoBehaviour
         }
     }
 
+    private void RifleShoot()
+    {
+        shootAudioSource.PlayOneShot(audioRifleShoot);
+        
+        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Destroy(bullet, 2f);
+    }
+
     private void FixedUpdate()
     {
         var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var dir = pos - armTransform.position;
         dir.Normalize();
- 
+
         if (transform.eulerAngles.y > 90)
         {
             dir.x *= -1;
         }
- 
+
         float angle = Mathf.RoundToInt(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         angle = Mathf.Clamp(angle, maxArmRotations.x, maxArmRotations.y);
         armTransform.localRotation = Quaternion.Euler(0f, 0f, angle);
     }
-    
-    private IEnumerator Shoot()
+
+    private IEnumerator LaserShoot()
     {
 
-        shootAudioSource.Play();
+        shootAudioSource.PlayOneShot(audioLaserShoot);
         var hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right, 9999, collisionLayerMask);
         GameObject impactGameObject = null;
         if (hitInfo)
@@ -85,7 +127,7 @@ public class RayCastWeapon : MonoBehaviour
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, firePoint.position + firePoint.right * 100);
         }
-        
+
         lineRenderer.enabled = true;
         yield return new WaitForSeconds(0.1f);
         lineRenderer.enabled = false;
@@ -96,4 +138,7 @@ public class RayCastWeapon : MonoBehaviour
             Destroy(impactGameObject);
         }
     }
+
+
+
 }

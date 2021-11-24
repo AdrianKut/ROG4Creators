@@ -48,5 +48,10 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             GameManager.gameManagerInstance.GameOver();
         }
+
+        if (other.gameObject.CompareTag("Shield"))
+        {
+            Die();
+        }
     }
 }

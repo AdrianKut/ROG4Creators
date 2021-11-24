@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 public enum PowerUpType
 {
     Shield = 10,
+    HighSpeed = 12,
     SuperAmmo = 11,
-    HighSpeed = 12
-
-
+    Laser = 15
 }
 
 
@@ -20,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Distance Score")]
     public float distanceCounter;
+    public float distanceMultipier = 0.05f;
     public TextMeshProUGUI textDistance;
 
     [Header("")]
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseMoney(int moneyAmount) => money += moneyAmount;
 
-    public UnityEvent OnGameOver;
+    public UnityEvent OnGameOverEvent;
     public float gameOverDelay = 1.5f;
 
     public static GameManager gameManagerInstance;
@@ -123,13 +123,15 @@ public class GameManager : MonoBehaviour
 
     private void IncreaseMoneyPerSeconds()
     {
-        money += 0.001f;
+        money += 0.002f;
         textMoney.SetText($"{money:F0} $");
     }
 
+
+
     private void UpdateTimerText()
     {
-        distanceCounter += 0.05f;
+        distanceCounter += distanceMultipier;
         textDistance.SetText($"{distanceCounter:F0} M");
 
         if ((currentBestScore < distanceCounter) && !isNewHighScore)
@@ -178,7 +180,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        OnGameOver?.Invoke();
+        OnGameOverEvent?.Invoke();
         isGameOver = true;
     }
 
@@ -191,6 +193,11 @@ public class GameManager : MonoBehaviour
     public void NewHighScoreOnClick()
     {
         OnHighscore?.Invoke();
+    }
+
+    public void AddMoney()
+    {
+        money += 5;
     }
     #endregion
 

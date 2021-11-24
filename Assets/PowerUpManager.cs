@@ -6,15 +6,23 @@ using UnityEngine.UI;
 public class PowerUpManager : MonoBehaviour
 {
     private GameManager gameManager;
+    private AudioSource audioSource;
+    private GameObject player;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
         gameManager = GameManager.gameManagerInstance;
-        gameManager.OnGameOver.AddListener(HidePowerUps);
+        gameManager.OnGameOverEvent.AddListener(HidePowerUps);
+        gameManager.OnPauseEvent.AddListener(HidePowerUps);
+        
     }
 
     private void HidePowerUps()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     void Update()
@@ -25,11 +33,12 @@ public class PowerUpManager : MonoBehaviour
     [Header("Shield")]
     public short shieldDuration = 3;
     public GameObject GameObjectShield;
-    public int shieldCost = 10;
+
     public void BuyShield()
     {
-        if (gameManager.money >= shieldCost)
+        if (gameManager.money >= (int)PowerUpType.Shield)
         {
+            audioSource.Play();
             gameManager.BuyPowerUp(PowerUpType.Shield);
             StartCoroutine(EnableShield());
         }
@@ -59,18 +68,85 @@ public class PowerUpManager : MonoBehaviour
         thisButton.GetComponent<Button>().interactable = true;
     }
 
-
+    [Header("SuperAmmo")]
+    public short superAmmoDuration = 10;
     public void BuySuperAmmo()
     {
-
-
+        if (gameManager.money >= (int)PowerUpType.SuperAmmo)
+        {
+            audioSource.Play();
+            gameManager.BuyPowerUp(PowerUpType.SuperAmmo);
+            StartCoroutine(EnableSuperAmmo());
+        }
     }
 
+    private IEnumerator EnableSuperAmmo()
+    {
+        var thisButton = EventSystem.current.currentSelectedGameObject;
 
+        thisButton.GetComponent<Button>().interactable = false;
+
+        player.GetComponent<RayCastWeapon>().ChangeValueOfFireRate(0.15f);
+        yield return new WaitForSeconds(superAmmoDuration);
+        player.GetComponent<RayCastWeapon>().ChangeValueOfFireRate(1f);
+
+        yield return new WaitForSeconds(5f);
+        thisButton.GetComponent<Button>().interactable = true;
+    }
+
+    [Header("HighSpeed")]
+    public short highSpeedDuration = 5;
     public void BuyHighSpeed()
     {
-
-
+        if (gameManager.money >= (int)PowerUpType.HighSpeed)
+        {
+            audioSource.Play();
+            gameManager.BuyPowerUp(PowerUpType.HighSpeed);
+            StartCoroutine(EnableHighSpeed());
+        }
     }
 
+    private IEnumerator EnableHighSpeed()
+    {
+        var thisButton = EventSystem.current.currentSelectedGameObject;
+        var background = GameObject.FindGameObjectWithTag("Background");
+
+        thisButton.GetComponent<Button>().interactable = false;
+
+        background.GetComponent<LoopBackground>().speed *= 2;
+        gameManager.distanceMultipier *= 2;
+        yield return new WaitForSeconds(highSpeedDuration);
+        background.GetComponent<LoopBackground>().speed /= 2;
+        gameManager.distanceMultipier /= 2;
+
+        yield return new WaitForSeconds(5f);
+        thisButton.GetComponent<Button>().interactable = true;
+    }
+
+
+    [Header("Laser")]
+    public short laserDuration = 5;
+    public void BuyLaser()
+    {
+        if (gameManager.money >= (int)PowerUpType.Laser)
+        {
+            audioSource.Play();
+            gameManager.BuyPowerUp(PowerUpType.Laser);
+            StartCoroutine(EnableLaser());
+        }
+    }
+
+    private IEnumerator EnableLaser()
+    {
+        var thisButton = EventSystem.current.currentSelectedGameObject;
+
+        thisButton.GetComponent<Button>().interactable = false;
+
+        player.GetComponent<RayCastWeapon>().UseLaser();
+        yield return new WaitForSeconds(laserDuration);
+        player.GetComponent<RayCastWeapon>().UseRifle();
+
+        yield return new WaitForSeconds(5f);
+        thisButton.GetComponent<Button>().interactable = true;
+    }
 }

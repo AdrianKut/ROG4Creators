@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
         var enemy = hitInfo.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(RayCastWeapon.GetCurrentValueOfDamage());
         }
         
         StartCoroutine(SpawnImpactEffect());
@@ -45,5 +45,6 @@ public class Bullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+
     }
 }
