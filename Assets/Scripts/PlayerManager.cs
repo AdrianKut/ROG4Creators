@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
             audioSource.PlayOneShot(audioClip[1]);
             rb.AddForce(Vector2.up * force, ForceMode2D.Force);
             
-            var jumpEffect = Instantiate(JumpEffect, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.identity);
+            var jumpEffect = Instantiate(JumpEffect, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.Euler(70f,0,0));
             Destroy(jumpEffect, 1f);
         }
 
