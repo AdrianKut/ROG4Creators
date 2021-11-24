@@ -147,11 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae776ef7fb190534dbfbb90484a1a9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  moveSpeed: 0.2
-  yOffset: 0
-  deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338,
-    type: 3}
+  health: 10
+  moveSpeed: 3
+  deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
+  moneyAmount: 2
 --- !u!58 &2430986630103516754
 CircleCollider2D:
   m_ObjectHideFlags: 0

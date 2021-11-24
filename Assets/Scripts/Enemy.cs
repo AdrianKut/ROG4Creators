@@ -10,51 +10,43 @@ public class Enemy : MonoBehaviour
     private float moveSpeed = 10f;
 
     [SerializeField]
-    private float yOffset;
-    
-    [SerializeField]
     private GameObject deathEffect;
-    
-    private GameObject player;
-    private Vector3 targetPosition;
-    private WaveManager waveManager;
-    
+
+    [SerializeField]
+    private int moneyAmount;
+
+    private float yPos;
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        waveManager = FindObjectOfType<WaveManager>();
+        yPos = transform.position.y;
     }
-    
+
     private void FixedUpdate()
     {
-        var pos = Vector3.MoveTowards (transform.localPosition, player.transform.position, Time.deltaTime * moveSpeed);
-        targetPosition.x = pos.x;
-        targetPosition.y = 2.94f - yOffset;
-        transform.localPosition = targetPosition;
+        Vector3 newPos = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, 4, 0);
+        transform.position = new Vector3(newPos.x,yPos,newPos.z);
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
-
         if (health <= 0)
-        {
             Die();
-        }
     }
 
     private void Die()
     {
+        GameManager.gameManagerInstance.IncreaseMoney(moneyAmount);
         Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
-        waveManager.EnemyDead();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if ( other.transform.GetComponent<CharacterController2D>() )
+        if ( other.gameObject.CompareTag("Player"))
         {
-            waveManager.PlayerDead();
+            Destroy(gameObject);
+            GameManager.gameManagerInstance.GameOver();
         }
     }
 }

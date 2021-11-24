@@ -3,8 +3,18 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+public enum PowerUpType
+{
+    Shield = 10,
+    SuperAmmo = 11,
+    HighSpeed = 12
+
+
+}
+
+
 public class GameManager : MonoBehaviour
-{    
+{
     [Header("LEVEL UI")]
     public GameObject GameObjectLevelUI;
 
@@ -12,16 +22,44 @@ public class GameManager : MonoBehaviour
     public float distanceCounter;
     public TextMeshProUGUI textDistance;
 
+    [Header("")]
+    public float money;
+    public TextMeshProUGUI textMoney;
+
     [Header("Best Distance Score")]
     public float currentBestScore;
+    public bool isNewHighScore = false;
     public TextMeshProUGUI textBestDistance;
     public UnityEvent OnHighscore;
 
     [Header("Game Over")]
     public bool isGameOver = false;
+
+    public void BuyPowerUp(PowerUpType powerUpType)
+    {
+
+        switch (powerUpType)
+        {
+            case PowerUpType.Shield:
+                money -= (int)powerUpType;
+                break;
+
+            case PowerUpType.SuperAmmo:
+                money -= (int)powerUpType;
+                break;
+
+            case PowerUpType.HighSpeed:
+                money -= (int)powerUpType;
+                break;
+        }
+    }
+
     public GameObject GameOverObject;
     public TextMeshProUGUI FinalScoreText;
     public TextMeshProUGUI NewHighScoreText;
+
+    public void IncreaseMoney(int moneyAmount) => money += moneyAmount;
+
     public UnityEvent OnGameOver;
     public float gameOverDelay = 1.5f;
 
@@ -53,12 +91,14 @@ public class GameManager : MonoBehaviour
                 Pause();
 
             UpdateTimerText();
+            IncreaseMoneyPerSeconds();
         }
 
         if (isGameOver)
         {
             gameOverDelay -= Time.deltaTime * 1f;
             FinalScoreText.SetText("YOUR SCORE: \n " + textDistance.text);
+
             if (gameOverDelay <= 0)
             {
                 GameObjectLevelUI.SetActive(false);
@@ -75,11 +115,18 @@ public class GameManager : MonoBehaviour
                 //Mute all sounds
                 AudioListener.pause = true;
                 AudioListener.volume = 0;
+
+
             }
         }
     }
 
-    public bool isNewHighScore = false;
+    private void IncreaseMoneyPerSeconds()
+    {
+        money += 0.001f;
+        textMoney.SetText($"{money:F0} $");
+    }
+
     private void UpdateTimerText()
     {
         distanceCounter += 0.05f;
@@ -139,7 +186,7 @@ public class GameManager : MonoBehaviour
     public void QuitGame() => SceneManager.LoadScene("Menu");
 
 
-
+    //TO DELETE
     #region Debug
     public void NewHighScoreOnClick()
     {

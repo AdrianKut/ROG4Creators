@@ -13,13 +13,7 @@ public class RayCastWeapon : MonoBehaviour
     private int damage = 40;
 
     [SerializeField]
-    private float fireRate = 1f;
-
-    [SerializeField]
-    private float cameraShakeAmount = 0.05f;
-
-    [SerializeField]
-    private float cameraShakeLength = 0.1f;
+    private float fireRate = 0.1f;
 
     [SerializeField]
     private GameObject impactEffect;
@@ -37,13 +31,6 @@ public class RayCastWeapon : MonoBehaviour
     private AudioSource shootAudioSource;
 
     private float timer;
-
-    private CameraShake cameraShake;
-
-    private void Awake()
-    {
-        cameraShake = FindObjectOfType<CameraShake>();
-    }
 
     private void Update()
     {
@@ -76,7 +63,7 @@ public class RayCastWeapon : MonoBehaviour
     
     private IEnumerator Shoot()
     {
-        cameraShake.Shake(cameraShakeAmount, cameraShakeLength);
+
         shootAudioSource.Play();
         var hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right, 9999, collisionLayerMask);
         GameObject impactGameObject = null;

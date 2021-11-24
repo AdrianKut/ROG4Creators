@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
 
-    public float force = 900f;
+    public float forceJump = 900f;
     public bool isGrounded = true;
 
     [Header("Audio")]
@@ -33,7 +32,7 @@ public class PlayerManager : MonoBehaviour
     {
         audioSource.PlayOneShot(audioClip[0]);
         animator.SetBool("isDead", true);
-        var diedEffect = Instantiate(DiedEffect, new Vector3(transform.position.x+0.485f, transform.position.y - 0.30f, transform.position.z), Quaternion.identity);
+        var diedEffect = Instantiate(DiedEffect, new Vector3(transform.position.x + 0.485f, transform.position.y - 0.30f, transform.position.z), Quaternion.identity);
         Destroy(diedEffect, 1f);
     }
 
@@ -43,9 +42,9 @@ public class PlayerManager : MonoBehaviour
         {
 
             audioSource.PlayOneShot(audioClip[1]);
-            rb.AddForce(Vector2.up * force, ForceMode2D.Force);
-            
-            var jumpEffect = Instantiate(JumpEffect, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.Euler(70f,0,0));
+            rb.AddForce(Vector2.up * forceJump, ForceMode2D.Force);
+
+            var jumpEffect = Instantiate(JumpEffect, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.Euler(70f, 0, 0));
             Destroy(jumpEffect, 1f);
         }
 
