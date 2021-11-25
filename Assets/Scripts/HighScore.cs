@@ -16,6 +16,9 @@ public class HighScore : MonoBehaviour
         audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
+    private void DisplayTextHighScore() => StartCoroutine("Show");
+    
+
     private IEnumerator Show()
     {
         audioSource.Play();
@@ -29,9 +32,4 @@ public class HighScore : MonoBehaviour
         LeanTweenExt.LeanAlphaText(text, 0,1f).setEase(LeanTweenType.linear);
     }
 
-    private void DisplayTextHighScore()
-    {
-        Debug.Log("New Highscore");
-        StartCoroutine("Show");
-    }
 }

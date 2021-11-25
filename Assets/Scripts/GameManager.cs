@@ -197,7 +197,14 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney()
     {
-        money += 5;
+        money += 10;
+    }
+
+    [SerializeField]
+    GameObject monster;
+    public void Spawn()
+    {
+        Instantiate(monster, new Vector3(3.47f, 2f, 0f), Quaternion.identity);
     }
     #endregion
 

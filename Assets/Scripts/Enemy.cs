@@ -14,11 +14,13 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private int moneyAmount;
-
+    
     private float yPos;
+    private AudioSource audioSource;
     private void Awake()
     {
         yPos = transform.position.y;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -36,22 +38,28 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        audioSource.Play();
         GameManager.gameManagerInstance.IncreaseMoney(moneyAmount);
         Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        Destroy(gameObject.GetComponent<Collider2D>());
+        Destroy(transform.GetChild(0).gameObject);
+        Destroy(gameObject, 2f);
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if ( other.gameObject.CompareTag("Player"))
-        {
-            Destroy(gameObject);
-            GameManager.gameManagerInstance.GameOver();
-        }
-
-        if (other.gameObject.CompareTag("Shield"))
+        if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated())
         {
             Die();
         }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            audioSource.Play();
+            Destroy(transform.GetChild(0).gameObject);
+            Destroy(gameObject.GetComponent<Collider2D>());
+            Destroy(gameObject,2f);
+        }
+
     }
 }

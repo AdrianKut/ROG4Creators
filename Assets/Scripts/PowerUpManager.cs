@@ -17,7 +17,7 @@ public class PowerUpManager : MonoBehaviour
         gameManager = GameManager.gameManagerInstance;
         gameManager.OnGameOverEvent.AddListener(HidePowerUps);
         gameManager.OnPauseEvent.AddListener(HidePowerUps);
-        
+
     }
 
     private void HidePowerUps()
@@ -25,15 +25,13 @@ public class PowerUpManager : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    void Update()
-    {
-
-    }
-
+    #region Shield
     [Header("Shield")]
-    public short shieldDuration = 3;
+    [SerializeField]
+    private short shieldDuration = 3;
+    private static bool isShieldActivated = false;
     public GameObject GameObjectShield;
-
+    public static bool ShieldActivated() => isShieldActivated == true ? true : false;
     public void BuyShield()
     {
         if (gameManager.money >= (int)PowerUpType.Shield)
@@ -46,6 +44,7 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableShield()
     {
+        isShieldActivated = true;
         var shield = Instantiate(GameObjectShield, GameObjectShield.transform.position, Quaternion.identity);
 
         var thisButton = EventSystem.current.currentSelectedGameObject;
@@ -60,16 +59,20 @@ public class PowerUpManager : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
         }
 
-
         var a = LeanTween.alpha(this.gameObject, 0f, 0.5f).setEase(LeanTweenType.easeOutQuad);
         Destroy(shield);
 
+        isShieldActivated = false;
         yield return new WaitForSeconds(1f);
         thisButton.GetComponent<Button>().interactable = true;
     }
+    #endregion
 
+    #region SuperAmmo
     [Header("SuperAmmo")]
-    public short superAmmoDuration = 10;
+    [SerializeField]
+    private short superAmmoDuration = 10;
+    private bool isSuperAmmoActivated = false;
     public void BuySuperAmmo()
     {
         if (gameManager.money >= (int)PowerUpType.SuperAmmo)
@@ -82,18 +85,26 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableSuperAmmo()
     {
+        isSuperAmmoActivated = true;
         var thisButton = EventSystem.current.currentSelectedGameObject;
-
+        var rayCastWeapon = player.GetComponent<RayCastWeapon>();
         thisButton.GetComponent<Button>().interactable = false;
 
-        player.GetComponent<RayCastWeapon>().ChangeValueOfFireRate(0.15f);
+        rayCastWeapon.ChangeValueOfFireRate(0.15f);
         yield return new WaitForSeconds(superAmmoDuration);
-        player.GetComponent<RayCastWeapon>().ChangeValueOfFireRate(1f);
 
+        if (rayCastWeapon.GetNameOfCurrentWeapon() == "laser")
+            rayCastWeapon.UseLaser();
+        else if (rayCastWeapon.GetNameOfCurrentWeapon() == "rifle")
+            rayCastWeapon.UseRifle();
+
+        isSuperAmmoActivated = false;
         yield return new WaitForSeconds(5f);
         thisButton.GetComponent<Button>().interactable = true;
     }
+    #endregion
 
+    #region HighSpeed
     [Header("HighSpeed")]
     public short highSpeedDuration = 5;
     public void BuyHighSpeed()
@@ -122,10 +133,12 @@ public class PowerUpManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         thisButton.GetComponent<Button>().interactable = true;
     }
+    #endregion
 
-
+    #region LASER
     [Header("Laser")]
-    public short laserDuration = 5;
+    [SerializeField]
+    private short laserDuration = 5;
     public void BuyLaser()
     {
         if (gameManager.money >= (int)PowerUpType.Laser)
@@ -139,14 +152,26 @@ public class PowerUpManager : MonoBehaviour
     private IEnumerator EnableLaser()
     {
         var thisButton = EventSystem.current.currentSelectedGameObject;
+        var rayCastWeapon = player.GetComponent<RayCastWeapon>();
 
         thisButton.GetComponent<Button>().interactable = false;
 
-        player.GetComponent<RayCastWeapon>().UseLaser();
-        yield return new WaitForSeconds(laserDuration);
-        player.GetComponent<RayCastWeapon>().UseRifle();
+        if (isSuperAmmoActivated)
+        {
+            rayCastWeapon.UseLaser();
+            rayCastWeapon.ChangeValueOfFireRate(0.15f);
+            yield return new WaitForSeconds(laserDuration);
+            rayCastWeapon.UseRifle();
+        }
+        else
+        {
+            rayCastWeapon.UseLaser();
+            yield return new WaitForSeconds(laserDuration);
+            rayCastWeapon.UseRifle();
+        }
 
         yield return new WaitForSeconds(5f);
         thisButton.GetComponent<Button>().interactable = true;
     }
+    #endregion
 }

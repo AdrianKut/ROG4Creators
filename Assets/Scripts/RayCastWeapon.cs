@@ -12,7 +12,7 @@ public class RayCastWeapon : MonoBehaviour
     private static int damage;
 
     [SerializeField]
-    private float fireRate = 0.1f;
+    private float fireRate = 1f;
 
     [SerializeField]
     private GameObject impactEffect;
@@ -41,18 +41,21 @@ public class RayCastWeapon : MonoBehaviour
     private float timer;
     private string currentWeapon = "rifle";
 
-     
+    public string GetNameOfCurrentWeapon() => currentWeapon;
+    public float GetValueOfFireRate() => fireRate;
 
     public void UseLaser()
     {
         damage = 60;
         currentWeapon = "laser";
+        fireRate = 0.8f;
     }
 
-    public void UseRifle() 
+    public void UseRifle()
     {
         damage = 30;
-        currentWeapon = "rifle"; 
+        currentWeapon = "rifle";
+        fireRate = 1f;
     }
 
     public static int GetCurrentValueOfDamage() => damage;
@@ -82,7 +85,7 @@ public class RayCastWeapon : MonoBehaviour
     private void RifleShoot()
     {
         shootAudioSource.PlayOneShot(audioRifleShoot);
-        
+
         var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Destroy(bullet, 2f);
     }
@@ -115,9 +118,8 @@ public class RayCastWeapon : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+                impactGameObject = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
             }
-
-            impactGameObject = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
 
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, hitInfo.point);

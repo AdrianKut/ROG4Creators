@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
     private GameObject impactEffect;
 
     private new Collider2D collider2D;
-    
+
     private void Start()
     {
         rb.velocity = transform.right * speed;
@@ -29,9 +29,9 @@ public class Bullet : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(RayCastWeapon.GetCurrentValueOfDamage());
+            StartCoroutine(SpawnImpactEffect());
         }
-        
-        StartCoroutine(SpawnImpactEffect());
+
     }
 
     private IEnumerator SpawnImpactEffect()
