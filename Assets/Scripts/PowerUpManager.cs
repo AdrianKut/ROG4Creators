@@ -106,7 +106,7 @@ public class PowerUpManager : MonoBehaviour
 
     #region HighSpeed
     [Header("HighSpeed")]
-    public short highSpeedDuration = 5;
+    public short highSpeedDuration = 10;
     public void BuyHighSpeed()
     {
         if (gameManager.money >= (int)PowerUpType.HighSpeed)
@@ -124,11 +124,13 @@ public class PowerUpManager : MonoBehaviour
 
         thisButton.GetComponent<Button>().interactable = false;
 
-        background.GetComponent<LoopBackground>().speed *= 2;
+        Time.timeScale = 2;
+        background.GetComponent<LoopBackground>().speed *= 3;
         gameManager.distanceMultipier *= 2;
         yield return new WaitForSeconds(highSpeedDuration);
-        background.GetComponent<LoopBackground>().speed /= 2;
+        background.GetComponent<LoopBackground>().speed /= 3;
         gameManager.distanceMultipier /= 2;
+        Time.timeScale = 1;
 
         yield return new WaitForSeconds(5f);
         thisButton.GetComponent<Button>().interactable = true;

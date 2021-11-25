@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -14,7 +13,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private int moneyAmount;
-    
+
     private float yPos;
     private AudioSource audioSource;
     private void Awake()
@@ -26,24 +25,32 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 newPos = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, 4, 0);
-        transform.position = new Vector3(newPos.x,yPos,newPos.z);
+        transform.position = new Vector3(newPos.x, yPos, newPos.z);
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
-            Die();
+            Die("bullet");
     }
 
-    private void Die()
+    private void Die(string typeOfDeath)
     {
         audioSource.Play();
-        GameManager.gameManagerInstance.IncreaseMoney(moneyAmount);
         Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject.GetComponent<Collider2D>());
         Destroy(transform.GetChild(0).gameObject);
+        Destroy(gameObject.GetComponent<Collider2D>());
         Destroy(gameObject, 2f);
+
+        if (typeOfDeath == "shield" || typeOfDeath == "bullet")
+        {
+            GameManager.gameManagerInstance.IncreaseMoney(moneyAmount);
+        }
+        else if (typeOfDeath == "player")
+        {
+            GameManager.gameManagerInstance.GameOver();
+        }
 
     }
 
@@ -51,14 +58,11 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated())
         {
-            Die();
+            Die("shield");
         }
         else if (other.gameObject.CompareTag("Player"))
         {
-            audioSource.Play();
-            Destroy(transform.GetChild(0).gameObject);
-            Destroy(gameObject.GetComponent<Collider2D>());
-            Destroy(gameObject,2f);
+            Die("player");
         }
 
     }

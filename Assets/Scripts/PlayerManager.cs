@@ -33,6 +33,8 @@ public class PlayerManager : MonoBehaviour
         audioSource.PlayOneShot(audioClip[0]);
         animator.SetBool("isDead", true);
         var diedEffect = Instantiate(DiedEffect, new Vector3(transform.position.x + 0.485f, transform.position.y - 0.30f, transform.position.z), Quaternion.identity);
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        Destroy(this.gameObject.GetComponent<Collider2D>());
         Destroy(diedEffect, 1f);
     }
 
