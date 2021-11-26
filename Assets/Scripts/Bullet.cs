@@ -25,17 +25,21 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
+        
         var enemy = hitInfo.GetComponent<Enemy>();
         if (enemy != null)
         {
             enemy.TakeDamage(RayCastWeapon.GetCurrentValueOfDamage());
             StartCoroutine(SpawnImpactEffect());
         }
-
+        else
+            StartCoroutine(SpawnImpactEffect());
     }
 
     private IEnumerator SpawnImpactEffect()
     {
+        Destroy(collider2D);
+        Destroy(this.gameObject.GetComponent<SpriteRenderer>());
         var impactGameObject = Instantiate(impactEffect, transform.position, transform.rotation);
 
         yield return new WaitForSeconds(1f);

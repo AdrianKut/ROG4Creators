@@ -1101,7 +1101,7 @@ GameObject:
   - component: {fileID: 270586458}
   - component: {fileID: 270586457}
   m_Layer: 5
-  m_Name: PowerUps
+  m_Name: PowerUp Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1123,7 +1123,7 @@ RectTransform:
   - {fileID: 1800100470}
   - {fileID: 1332408134}
   m_Father: {fileID: 654390897}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1166,11 +1166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1deb6c1a827cec249a8f2c85a5498aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameObjectParentPowerUpDurationIcons: {fileID: 1171083667}
+  GameObjectChildPowerUpDurationIcons: {fileID: 7613961732424020113, guid: 6fa01bb33c323e4448ed45bc9cb9dfb9, type: 3}
+  shieldSprite: {fileID: 21300000, guid: d6fc48754c1110a43abb5a7bdaed6307, type: 3}
+  laserSprite: {fileID: 21300000, guid: 492b9988436bd45049a9a6bc52ac8fb0, type: 3}
+  superAmmoSprite: {fileID: 21300000, guid: 1cafae377352e4777bf22d10ddbf1be0, type: 3}
+  highSpeedSprite: {fileID: 21300000, guid: c60c7f4cabccc364c892c259d2dde455, type: 3}
   shieldDuration: 10
   GameObjectShield: {fileID: 1286056358234109774, guid: a1df03ae5e5d4eb42bc48d14eff9c55b, type: 3}
-  superAmmoDuration: 10
-  highSpeedDuration: 10
-  laserDuration: 10
+  superAmmoDuration: 9
+  highSpeedDuration: 8
+  laserDuration: 7
 --- !u!82 &270586458
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1986,7 +1992,7 @@ RectTransform:
   - {fileID: 260476814}
   - {fileID: 1935198816}
   m_Father: {fileID: 654390897}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2330,6 +2336,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1171083668}
   - {fileID: 970558565}
   - {fileID: 1305732360}
   - {fileID: 569071146}
@@ -3451,7 +3458,7 @@ RectTransform:
   - {fileID: 3833819765037602878}
   - {fileID: 804407385}
   m_Father: {fileID: 654390897}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4204,6 +4211,66 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1171083667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171083668}
+  - component: {fileID: 1171083669}
+  m_Layer: 5
+  m_Name: PowerUpsIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1171083668
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171083667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 654390897}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 15, y: 350}
+  m_SizeDelta: {x: -30, y: -700}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1171083669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171083667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 25, y: 25}
+  m_Spacing: {x: 30, y: 0}
+  m_Constraint: 1
+  m_ConstraintCount: 5
 --- !u!1 &1172495606
 GameObject:
   m_ObjectHideFlags: 0
@@ -4975,7 +5042,7 @@ RectTransform:
   - {fileID: 854805178}
   - {fileID: 1484836457}
   m_Father: {fileID: 654390897}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5279,7 +5346,7 @@ RectTransform:
   - {fileID: 1926506231}
   - {fileID: 1333315303}
   m_Father: {fileID: 654390897}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6599,7 +6666,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 654390897}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8078,7 +8145,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 0, a: 1}
-    m_PressedColor: {r: 0.015686275, g: 0.74509805, b: 0.7803922, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1

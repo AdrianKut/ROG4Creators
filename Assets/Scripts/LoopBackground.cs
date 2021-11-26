@@ -14,12 +14,15 @@ public class LoopBackground : MonoBehaviour
 
     private void Update()
     {
-        Vector3 newPos = new Vector3(transform.position.x - speed * Time.deltaTime, 4, 0);
-        transform.position = newPos;
-
-        if (transform.position.x <= xBound)
+        if (GameManager.gameManagerInstance.isGameOver == false)
         {
-            transform.position = startPos;
+            Vector3 newPos = new Vector3(transform.position.x - speed * Time.deltaTime, 4, 0);
+            transform.position = newPos;
+
+            if (transform.position.x <= xBound)
+            {
+                transform.position = startPos;
+            }
         }
     }
 }

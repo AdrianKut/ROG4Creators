@@ -115,8 +115,6 @@ public class GameManager : MonoBehaviour
                 //Mute all sounds
                 AudioListener.pause = true;
                 AudioListener.volume = 0;
-
-
             }
         }
     }
@@ -156,9 +154,9 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        isPaused = true;
         OnPauseEvent?.Invoke();
 
-        isPaused = true;
         PauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -166,6 +164,7 @@ public class GameManager : MonoBehaviour
     public void Resume()
     {
         isPaused = false;
+        OnPauseEvent?.Invoke();
         PauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -180,8 +179,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        OnGameOverEvent?.Invoke();
         isGameOver = true;
+        OnGameOverEvent?.Invoke();
     }
 
     public void Retry() => SceneManager.LoadScene("Game Scene");
