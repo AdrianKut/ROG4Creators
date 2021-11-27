@@ -5,6 +5,7 @@ public class RayCastWeapon : MonoBehaviour
 {
     [SerializeField]
     private Transform armTransform;
+
     [SerializeField]
     private Transform firePoint;
 
