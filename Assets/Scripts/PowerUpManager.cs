@@ -11,16 +11,22 @@ public class PowerUpManager : MonoBehaviour
     private GameObject player;
 
 
+
     [SerializeField]
     GameObject GameObjectParentPowerUpDurationIcons;
+
     [SerializeField]
     GameObject GameObjectChildPowerUpDurationIcons;
+
     [SerializeField]
     Sprite shieldSprite;
+
     [SerializeField]
     Sprite laserSprite;
+
     [SerializeField]
     Sprite superAmmoSprite;
+
     [SerializeField]
     Sprite highSpeedSprite;
 
@@ -33,6 +39,21 @@ public class PowerUpManager : MonoBehaviour
         gameManager = GameManager.gameManagerInstance;
         gameManager.OnGameOverEvent.AddListener(HidePowerUpsUI);
         gameManager.OnPauseEvent.AddListener(HidePowerUpsUI);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && buttonShield.interactable)
+            BuyShield();
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && buttonHighSpeed.interactable)
+            BuyHighSpeed();
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && buttonLaser.interactable)
+            BuyLaser();
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && buttonSuperAmmo.interactable)
+            BuySuperAmmo();
     }
 
     private void HidePowerUpsUI()
@@ -66,8 +87,16 @@ public class PowerUpManager : MonoBehaviour
 
     #region Shield
     [Header("Shield")]
+
+    [SerializeField]
+    private Button buttonShield;
+
     [SerializeField]
     private short shieldDuration;
+
+    [SerializeField]
+    private float timeToRenewShield;
+
     private static bool isShieldActivated = false;
     public static bool ShieldActivated() => isShieldActivated == true ? true : false;
     public GameObject GameObjectShield;
@@ -90,8 +119,7 @@ public class PowerUpManager : MonoBehaviour
         isShieldActivated = true;
         var shield = Instantiate(GameObjectShield, GameObjectShield.transform.position, Quaternion.identity);
 
-        var thisButton = EventSystem.current.currentSelectedGameObject;
-        thisButton.GetComponent<Button>().interactable = false;
+        buttonShield.interactable = false;
 
         LeanTween.rotateAround(shield, Vector3.forward, 360, 1.75f).setLoopClamp();
 
@@ -113,8 +141,8 @@ public class PowerUpManager : MonoBehaviour
         Destroy(powerUpIcon);
 
         isShieldActivated = false;
-        yield return new WaitForSeconds(1f);
-        thisButton.GetComponent<Button>().interactable = true;
+        yield return new WaitForSeconds(timeToRenewShield);
+        buttonShield.interactable = true;
     }
 
 
@@ -122,8 +150,16 @@ public class PowerUpManager : MonoBehaviour
 
     #region SuperAmmo
     [Header("SuperAmmo")]
+
+    [SerializeField]
+    private Button buttonSuperAmmo;
+
     [SerializeField]
     private short superAmmoDuration;
+
+    [SerializeField]
+    private float timeToRenewSuperAmmo;
+
     private static bool isSuperAmmoActivated = false;
     public static bool SuperAmmoActivated() => isSuperAmmoActivated == true ? true : false;
     public void BuySuperAmmo()
@@ -143,9 +179,9 @@ public class PowerUpManager : MonoBehaviour
     private IEnumerator EnableSuperAmmo()
     {
         isSuperAmmoActivated = true;
-        var thisButton = EventSystem.current.currentSelectedGameObject;
         var rayCastWeapon = player.GetComponent<RayCastWeapon>();
-        thisButton.GetComponent<Button>().interactable = false;
+
+        buttonSuperAmmo.GetComponent<Button>().interactable = false;
 
         rayCastWeapon.ChangeValueOfFireRate(0.15f);
 
@@ -167,14 +203,22 @@ public class PowerUpManager : MonoBehaviour
         Destroy(powerUpIcon);
 
         isSuperAmmoActivated = false;
-        yield return new WaitForSeconds(5f);
-        thisButton.GetComponent<Button>().interactable = true;
+        yield return new WaitForSeconds(timeToRenewSuperAmmo);
+        buttonSuperAmmo.interactable = true;
 
     }
     #endregion
 
     #region HighSpeed
+
     [Header("HighSpeed")]
+
+    [SerializeField]
+    private Button buttonHighSpeed;
+
+    [SerializeField]
+    private float timeToRenewHighSpeed;
+
     public short highSpeedDuration = 10;
     private static bool isHighSpeedActivated = false;
     public static bool HighSpeedActivated() => isHighSpeedActivated == true ? true : false;
@@ -194,10 +238,9 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableHighSpeed()
     {
-        var thisButton = EventSystem.current.currentSelectedGameObject;
         var background = GameObject.FindGameObjectWithTag("Background");
 
-        thisButton.GetComponent<Button>().interactable = false;
+        buttonHighSpeed.interactable = false;
 
         Time.timeScale = 2;
         background.GetComponent<LoopBackground>().speed *= 3;
@@ -220,15 +263,23 @@ public class PowerUpManager : MonoBehaviour
 
         Destroy(powerUpIcon);
 
-        yield return new WaitForSeconds(5f);
-        thisButton.GetComponent<Button>().interactable = true;
+        yield return new WaitForSeconds(timeToRenewHighSpeed);
+        buttonHighSpeed.interactable = true;
     }
     #endregion
 
     #region Laser
     [Header("Laser")]
+
+    [SerializeField]
+    private Button buttonLaser;
+
     [SerializeField]
     private short laserDuration;
+
+    [SerializeField]
+    private float timeToRenewLaser;
+
     private static bool isLaserActivated = false;
     public static bool LaserActivated() => isLaserActivated == true ? true : false;
     public void BuyLaser()
@@ -240,17 +291,13 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableLaser());
         }
         else
-        {
             StartCoroutine(ChangeColorOfButtonToRed());
-        }
     }
 
     private IEnumerator EnableLaser()
     {
-        var thisButton = EventSystem.current.currentSelectedGameObject;
+        buttonLaser.interactable = false;
         var rayCastWeapon = player.GetComponent<RayCastWeapon>();
-
-        thisButton.GetComponent<Button>().interactable = false;
 
         GameObject powerUpIcon;
         TextMeshProUGUI textPowerUpDuration;
@@ -284,8 +331,8 @@ public class PowerUpManager : MonoBehaviour
 
         Destroy(powerUpIcon);
 
-        yield return new WaitForSeconds(5f);
-        thisButton.GetComponent<Button>().interactable = true;
+        yield return new WaitForSeconds(timeToRenewLaser);
+        buttonLaser.interactable = true;
     }
     #endregion
 }
