@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     public static GameManager gameManagerInstance;
     private void Awake()
     {
+        Application.targetFrameRate = 300;
         if (gameManagerInstance == null)
         {
             gameManagerInstance = this;

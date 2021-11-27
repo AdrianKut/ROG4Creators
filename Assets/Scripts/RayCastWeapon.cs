@@ -46,14 +46,14 @@ public class RayCastWeapon : MonoBehaviour
 
     public void UseLaser()
     {
-        damage = 60;
+        damage = 50;
         currentWeapon = "laser";
-        fireRate = 0.8f;
+        fireRate = 0.7f;
     }
 
     public void UseRifle()
     {
-        damage = 30;
+        damage = 25;
         currentWeapon = "rifle";
         fireRate = 1f;
     }
@@ -68,7 +68,7 @@ public class RayCastWeapon : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton("Fire1") && timer <= 0)
+        if (Input.GetButton("Fire1") && timer <= 0 && !GameManager.gameManagerInstance.isGameOver)
         {
             timer = fireRate;
             if (currentWeapon == "laser")
@@ -92,18 +92,21 @@ public class RayCastWeapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var dir = pos - armTransform.position;
-        dir.Normalize();
-
-        if (transform.eulerAngles.y > 90)
+        if (!GameManager.gameManagerInstance.isGameOver)
         {
-            dir.x *= -1;
-        }
+            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var dir = pos - armTransform.position;
+            dir.Normalize();
 
-        float angle = Mathf.RoundToInt(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-        angle = Mathf.Clamp(angle, maxArmRotations.x, maxArmRotations.y);
-        armTransform.localRotation = Quaternion.Euler(0f, 0f, angle);
+            if (transform.eulerAngles.y > 90)
+            {
+                dir.x *= -1;
+            }
+
+            float angle = Mathf.RoundToInt(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+            angle = Mathf.Clamp(angle, maxArmRotations.x, maxArmRotations.y);
+            armTransform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        }
     }
 
     private IEnumerator LaserShoot()

@@ -7,10 +7,11 @@ public class PlayerManager : MonoBehaviour
     public bool isGrounded = true;
 
     [Header("Audio")]
-    public AudioClip[] audioClip;
     private AudioSource audioSource;
+    public AudioClip[] audioClip;
     //0 - died
     //1 - jump
+    //2 - explosion
 
     public GameObject JumpEffect;
     public GameObject DiedEffect;
@@ -31,9 +32,12 @@ public class PlayerManager : MonoBehaviour
     private void GameOver()
     {
         audioSource.PlayOneShot(audioClip[0]);
+        audioSource.PlayOneShot(audioClip[2]);
         animator.SetBool("isDead", true);
         var diedEffect = Instantiate(DiedEffect, new Vector3(transform.position.x + 0.485f, transform.position.y - 0.30f, transform.position.z), Quaternion.identity);
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        transform.TransformDirection(new Vector3(transform.position.x, 2.9f, 0f));
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
         Destroy(this.gameObject.GetComponent<Collider2D>());
         Destroy(diedEffect, 1f);
     }

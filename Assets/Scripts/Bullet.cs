@@ -7,9 +7,6 @@ public class Bullet : MonoBehaviour
     private float speed = 20f;
 
     [SerializeField]
-    private int damage = 40;
-
-    [SerializeField]
     private Rigidbody2D rb;
 
     [SerializeField]
@@ -27,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
         
         var enemy = hitInfo.GetComponent<Enemy>();
-        if (enemy != null)
+        if (enemy != null && enemy.GetEnemyType() == EnemyType.Monster)
         {
             enemy.TakeDamage(RayCastWeapon.GetCurrentValueOfDamage());
             StartCoroutine(SpawnImpactEffect());
