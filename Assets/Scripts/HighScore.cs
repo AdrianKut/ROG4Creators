@@ -8,6 +8,7 @@ public class HighScore : MonoBehaviour
     private RectTransform transfom;
     private TextMeshProUGUI text;
     private AudioSource audioSource;
+
     void Start()
     {
         GameManager.gameManagerInstance.OnHighscore.AddListener(DisplayTextHighScore);
@@ -18,7 +19,6 @@ public class HighScore : MonoBehaviour
 
     private void DisplayTextHighScore() => StartCoroutine("Show");
     
-
     private IEnumerator Show()
     {
         audioSource.Play();

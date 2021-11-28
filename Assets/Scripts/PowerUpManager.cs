@@ -6,11 +6,7 @@ using UnityEngine.UI;
 
 public class PowerUpManager : MonoBehaviour
 {
-    private GameManager gameManager;
-    private AudioSource audioSource;
-    private GameObject player;
-
-
+ 
 
     [SerializeField]
     GameObject GameObjectParentPowerUpDurationIcons;
@@ -30,6 +26,10 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     Sprite highSpeedSprite;
 
+    private GameManager gameManager;
+    private AudioSource audioSource;
+    private GameObject player;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -42,6 +42,11 @@ public class PowerUpManager : MonoBehaviour
     }
 
     private void Update()
+    {
+        ActivationPowerUpsByKeys();
+    }
+
+    private void ActivationPowerUpsByKeys()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && buttonShield.interactable)
             BuyShield();
@@ -67,9 +72,8 @@ public class PowerUpManager : MonoBehaviour
 
     }
 
-    private IEnumerator ChangeColorOfButtonToRed()
+    private IEnumerator ChangeColorOfButtonToRed(Button thisButton)
     {
-        var thisButton = EventSystem.current.currentSelectedGameObject;
         thisButton.GetComponent<Image>().color = Color.red;
         yield return new WaitForSeconds(0.1f);
         thisButton.GetComponent<Image>().color = Color.white;
@@ -87,6 +91,7 @@ public class PowerUpManager : MonoBehaviour
 
     #region Shield
     [Header("Shield")]
+    public GameObject GameObjectShield;
 
     [SerializeField]
     private Button buttonShield;
@@ -99,7 +104,6 @@ public class PowerUpManager : MonoBehaviour
 
     private static bool isShieldActivated = false;
     public static bool ShieldActivated() => isShieldActivated == true ? true : false;
-    public GameObject GameObjectShield;
     public void BuyShield()
     {
         if (gameManager.money >= (int)PowerUpType.Shield)
@@ -109,9 +113,7 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableShield());
         }
         else
-        {
-            StartCoroutine(ChangeColorOfButtonToRed());
-        }
+            StartCoroutine(ChangeColorOfButtonToRed(buttonShield));
     }
 
     private IEnumerator EnableShield()
@@ -171,9 +173,7 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableSuperAmmo());
         }
         else
-        {
-            StartCoroutine(ChangeColorOfButtonToRed());
-        }
+            StartCoroutine(ChangeColorOfButtonToRed(buttonSuperAmmo));
     }
 
     private IEnumerator EnableSuperAmmo()
@@ -214,10 +214,10 @@ public class PowerUpManager : MonoBehaviour
     [Header("HighSpeed")]
 
     [SerializeField]
-    private Button buttonHighSpeed;
+    private float timeToRenewHighSpeed;
 
     [SerializeField]
-    private float timeToRenewHighSpeed;
+    private Button buttonHighSpeed;
 
     public short highSpeedDuration = 10;
     private static bool isHighSpeedActivated = false;
@@ -231,9 +231,7 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableHighSpeed());
         }
         else
-        {
-            StartCoroutine(ChangeColorOfButtonToRed());
-        }
+            StartCoroutine(ChangeColorOfButtonToRed(buttonHighSpeed));    
     }
 
     private IEnumerator EnableHighSpeed()
@@ -291,7 +289,7 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableLaser());
         }
         else
-            StartCoroutine(ChangeColorOfButtonToRed());
+            StartCoroutine(ChangeColorOfButtonToRed(buttonLaser));
     }
 
     private IEnumerator EnableLaser()

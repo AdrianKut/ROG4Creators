@@ -172,9 +172,9 @@ public class GameManager : MonoBehaviour
 
     public void BackToMenu()
     {
+        Time.timeScale = 1f;
         isPaused = false;
         SceneManager.LoadScene("Menu");
-        Time.timeScale = 1f;
     }
     #endregion
 
@@ -185,8 +185,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void Retry() => SceneManager.LoadScene("Game Scene");
-    public void QuitGame() => SceneManager.LoadScene("Menu");
-
 
     //TO DELETE
     #region Debug

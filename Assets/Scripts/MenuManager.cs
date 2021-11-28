@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    private void Start() => Time.timeScale = 1f;
+
     public void StartGame() => SceneManager.LoadScene("Game Scene");
 
     public void QuitGame() => Application.Quit();
