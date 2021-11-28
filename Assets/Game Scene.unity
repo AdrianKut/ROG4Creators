@@ -941,13 +941,13 @@ MonoBehaviour:
   shieldDuration: 10
   timeToRenewShield: 1
   buttonSuperAmmo: {fileID: 1332408135}
-  superAmmoDuration: 9
+  superAmmoDuration: 15
   timeToRenewSuperAmmo: 1
   timeToRenewHighSpeed: 1
   buttonHighSpeed: {fileID: 1805105085}
-  highSpeedDuration: 8
+  highSpeedDuration: 15
   buttonLaser: {fileID: 1800100471}
-  laserDuration: 7
+  laserDuration: 10
   timeToRenewLaser: 1
 --- !u!82 &270586458
 AudioSource:
@@ -3834,7 +3834,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1228731856
 MonoBehaviour:
@@ -5142,10 +5142,16 @@ MonoBehaviour:
   - {fileID: 6363880745955285288, guid: f44bff1530a43e8468ec3b00c628f90b, type: 3}
   - {fileID: 8197653305515299255, guid: 34c03720ccf30c843a72b01fc2cbf471, type: 3}
   - {fileID: 9109062702271143751, guid: 23d85c8ae0b6d0d49bff8c08dca83f3e, type: 3}
-  spawnObstaclesDelay: 2
-  spawnObstaclesInterval: 2
+  spawnObstaclesDelay: 3
+  spawnObstaclesInterval: 3
   gameObjectsMonstersToSpawn:
   - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
+  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
+  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
+  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
+  - {fileID: 461755012856003774, guid: db20c2a2d18e94c438f7b712a3f6703d, type: 3}
+  - {fileID: 461755012856003774, guid: db20c2a2d18e94c438f7b712a3f6703d, type: 3}
+  - {fileID: 6985783733045477433, guid: e8157b74025fe92409b41c86cf4114b4, type: 3}
   - {fileID: 8424992120847453258, guid: 6088aa62f38f6d84cbaf66d92172b990, type: 3}
   - {fileID: 2121255845919116562, guid: 66056aa28dfa5c040819feab37d52edb, type: 3}
   spawnMonstersDelay: 3
@@ -5162,7 +5168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1775070882
 GameObject:

@@ -41,9 +41,11 @@ public class SpawnManager : MonoBehaviour
         int index = Random.Range(0, gameObjectToSpawn.Length);
 
         if (!GameManager.gameManagerInstance.isGameOver)
-            Instantiate(gameObjectToSpawn[index],
-                new Vector3(Random.Range(7f, 13f), gameObjectToSpawn[index].transform.position.y, 0f),
-                gameObjectToSpawn[index].transform.rotation);
+        {
+            var gameObject = Instantiate(gameObjectToSpawn[index], new Vector3(Random.Range(7f, 13f), gameObjectToSpawn[index].transform.position.y, 0f), gameObjectToSpawn[index].transform.rotation);
+            //gameObject.GetComponent<Enemy>()
+
+        }
     }
 
 

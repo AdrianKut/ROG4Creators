@@ -525,7 +525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ABOUT
+  m_text: HELP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c404f02f13ac46141bdd7e2bb966855c, type: 2}
   m_sharedMaterial: {fileID: 5047026404128981703, guid: c404f02f13ac46141bdd7e2bb966855c, type: 2}
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 400, y: 150}
-  m_Spacing: {x: 50, y: 25}
+  m_Spacing: {x: 50, y: 50}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &910828389
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 1362495950}
   - component: {fileID: 1362495953}
   m_Layer: 5
-  m_Name: Button About
+  m_Name: Button Help
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

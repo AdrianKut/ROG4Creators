@@ -64,12 +64,13 @@ public class Enemy : MonoBehaviour
             destroy:
                 audioSource.Play();
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
-
-                //Delete sprite 
-                if (transform.childCount >= 1)
-                    Destroy(transform.GetChild(0).gameObject);
-                else
-                    Destroy(transform.GetComponent<SpriteRenderer>());
+                Destroy(transform.GetChild(0).gameObject);
+                Destroy(transform.GetComponent<SpriteRenderer>());
+                ////Delete sprite 
+                //if (transform.childCount >= 1)
+                //    Destroy(transform.GetChild(0).gameObject);
+                //else
+                //    Destroy(transform.GetComponent<SpriteRenderer>());
 
                 Destroy(gameObject.GetComponent<Collider2D>());
                 Destroy(gameObject, 2f);

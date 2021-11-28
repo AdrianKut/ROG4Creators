@@ -119,7 +119,7 @@ public class RayCastWeapon : MonoBehaviour
         if (hitInfo)
         {
             var enemy = hitInfo.transform.GetComponent<Enemy>();
-            if (enemy != null)
+            if (enemy != null && enemy.GetEnemyType() == EnemyType.Monster)
             {
                 enemy.TakeDamage(damage);
                 impactGameObject = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);

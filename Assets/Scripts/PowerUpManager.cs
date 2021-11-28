@@ -4,10 +4,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum PowerUpType
+{
+    Shield = 20,
+    HighSpeed = 30,
+    Laser = 50,
+    SuperAmmo = 100
+}
+
 public class PowerUpManager : MonoBehaviour
 {
- 
-
     [SerializeField]
     GameObject GameObjectParentPowerUpDurationIcons;
 

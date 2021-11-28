@@ -3,13 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public enum PowerUpType
-{
-    Shield = 10,
-    HighSpeed = 12,
-    SuperAmmo = 11,
-    Laser = 15
-}
 
 
 public class GameManager : MonoBehaviour
@@ -122,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     private void IncreaseMoneyPerSeconds()
     {
-        money += 0.002f;
+        money += 0.001f;
         textMoney.SetText($"{money:F0} $");
     }
 
