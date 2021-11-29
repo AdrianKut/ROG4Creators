@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
 
+    public void SetSpeed(float speed) => moveSpeed = speed;
+    public float GetSeed() => moveSpeed;
+
     [SerializeField]
     private GameObject deathEffect;
 
@@ -40,6 +43,9 @@ public class Enemy : MonoBehaviour
     {
         Vector3 newPos = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, 4, 0);
         transform.position = new Vector3(newPos.x, yPos, newPos.z);
+    
+        if (newPos.x <= -20f)
+            Destroy(this.gameObject);
     }
 
     public void TakeDamage(int damage)

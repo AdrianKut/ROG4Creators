@@ -2,17 +2,26 @@ using UnityEngine;
 
 public class LoopBackground : MonoBehaviour
 {
-
-    public float speed = 1f;
+    
+    [SerializeField]
     public float xBound = -47.32f;
 
-    public static Vector3 startPos;
+    [SerializeField]
+    private static float speed = 7f;
+
+    [SerializeField]
+    private  Vector3 startPos;
+
+    public static void SetSpeed(float _speed) => speed = _speed;
+    public static float GetSpeed() => speed;
+
     private void Start()
     {
         startPos = transform.position;
+        speed = 7f;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (GameManager.gameManagerInstance.isGameOver == false)
         {
@@ -20,9 +29,7 @@ public class LoopBackground : MonoBehaviour
             transform.position = newPos;
 
             if (transform.position.x <= xBound)
-            {
                 transform.position = startPos;
-            }
         }
     }
 }

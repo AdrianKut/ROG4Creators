@@ -28,30 +28,13 @@ public class GameManager : MonoBehaviour
     [Header("Game Over")]
     public bool isGameOver = false;
 
-    public void BuyPowerUp(PowerUpType powerUpType)
-    {
-
-        switch (powerUpType)
-        {
-            case PowerUpType.Shield:
-                money -= (int)powerUpType;
-                break;
-
-            case PowerUpType.SuperAmmo:
-                money -= (int)powerUpType;
-                break;
-
-            case PowerUpType.HighSpeed:
-                money -= (int)powerUpType;
-                break;
-        }
-    }
-
     public GameObject GameOverObject;
     public TextMeshProUGUI FinalScoreText;
     public TextMeshProUGUI NewHighScoreText;
 
     public void IncreaseMoney(int moneyAmount) => money += moneyAmount;
+    public void BuyPowerUpTypeAndDecreaseMoney(PowerUpType powerUpType) => money -= (int)powerUpType;
+
 
     public UnityEvent OnGameOverEvent;
     public float gameOverDelay = 1.5f;
@@ -60,10 +43,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 300;
+
         if (gameManagerInstance == null)
-        {
             gameManagerInstance = this;
-        }
     }
 
 
@@ -77,8 +59,32 @@ public class GameManager : MonoBehaviour
         UpdateBestScoreText();
     }
 
+    private float increaseSpeedAfterSec = 10f;
+    private bool canIncrease = true;
     void Update()
     {
+        increaseSpeedAfterSec -= 1f * Time.deltaTime;
+        if (increaseSpeedAfterSec < 0)
+        {
+            Debug.LogWarning("PRZYSPIESZENIE");
+            var _ = LoopBackground.GetSpeed();
+            LoopBackground.SetSpeed(_ += 0.5f);
+
+            increaseSpeedAfterSec = 10;
+        }
+
+        //after 100 metres
+        if ((int)distanceCounter >1 && ((int)distanceCounter % 500 == 0 && canIncrease))
+        {
+            canIncrease = false;
+            Debug.Log((int)distanceCounter);
+            Debug.Log("TERAZ! PRZYSPIESZAMY!");
+            SpawnManager.spawnDelay -= 0.10f;
+        
+        }
+
+
+
         if (!isPaused && !isGameOver)
         {
             if (Input.GetKeyDown(KeyCode.P))

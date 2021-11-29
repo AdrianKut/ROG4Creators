@@ -115,7 +115,7 @@ public class PowerUpManager : MonoBehaviour
         if (gameManager.money >= (int)PowerUpType.Shield)
         {
             audioSource.Play();
-            gameManager.BuyPowerUp(PowerUpType.Shield);
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.Shield);
             StartCoroutine(EnableShield());
         }
         else
@@ -175,7 +175,7 @@ public class PowerUpManager : MonoBehaviour
         if (gameManager.money >= (int)PowerUpType.SuperAmmo)
         {
             audioSource.Play();
-            gameManager.BuyPowerUp(PowerUpType.SuperAmmo);
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.SuperAmmo);
             StartCoroutine(EnableSuperAmmo());
         }
         else
@@ -233,7 +233,7 @@ public class PowerUpManager : MonoBehaviour
         if (gameManager.money >= (int)PowerUpType.HighSpeed)
         {
             audioSource.Play();
-            gameManager.BuyPowerUp(PowerUpType.HighSpeed);
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.HighSpeed);
             StartCoroutine(EnableHighSpeed());
         }
         else
@@ -242,12 +242,13 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableHighSpeed()
     {
-        var background = GameObject.FindGameObjectWithTag("Background");
+        var currentSpeed = LoopBackground.GetSpeed();
 
         buttonHighSpeed.interactable = false;
 
         Time.timeScale = 2;
-        background.GetComponent<LoopBackground>().speed *= 3;
+        LoopBackground.SetSpeed(currentSpeed *= 3);
+
         gameManager.distanceMultipier *= 2;
 
         GameObject powerUpIcon;
@@ -261,7 +262,7 @@ public class PowerUpManager : MonoBehaviour
         }
 
 
-        background.GetComponent<LoopBackground>().speed /= 3;
+        LoopBackground.SetSpeed(currentSpeed /= 3);
         gameManager.distanceMultipier /= 2;
         Time.timeScale = 1;
 
@@ -291,7 +292,7 @@ public class PowerUpManager : MonoBehaviour
         if (gameManager.money >= (int)PowerUpType.Laser)
         {
             audioSource.Play();
-            gameManager.BuyPowerUp(PowerUpType.Laser);
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.Laser);
             StartCoroutine(EnableLaser());
         }
         else

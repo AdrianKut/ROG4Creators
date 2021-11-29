@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -10,31 +9,68 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField]
     private float spawnObstaclesDelay;
-    
+
     [SerializeField]
     private float spawnObstaclesInterval;
-
 
     [Header("Monsters")]
     [SerializeField]
     GameObject[] gameObjectsMonstersToSpawn;
 
-    [SerializeField]
-    private float spawnMonstersDelay;
-
-    [SerializeField]
-    private float spawnMonstersInterval;
-
-
-    void Start()
+    private void Awake()
     {
-        InvokeRepeating("SpawnMonsters", spawnMonstersDelay, spawnMonstersInterval);
+        StartCoroutine(SpawnEnemies());
         InvokeRepeating("SpawnObstacles", spawnObstaclesDelay, spawnObstaclesInterval);
     }
 
-    void SpawnMonsters() => SpawnObjects(gameObjectsMonstersToSpawn);
+    public static float spawnDelay = 2.5f;
+    IEnumerator SpawnEnemies()
+    {
+        int index;
+        while (true)
+        {
+            index = Random.Range(0, 2);
+            MonsterToSpawn(index);
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
+            MonsterToSpawn(index);
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            index = Random.Range(0, 2);
+            MonsterToSpawn(index);
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            index = Random.Range(0, 4);
+            MonsterToSpawn(index);
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            index = Random.Range(0, 4);
+            MonsterToSpawn(index);
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
+            MonsterToSpawn(index);
+        }
+    }
+
+    private void MonsterToSpawn(int index)
+    {
+        var _ =  Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(7f, 13f),
+                        gameObjectsMonstersToSpawn[index].transform.position.y, 0f),
+                        gameObjectsMonstersToSpawn[index].transform.rotation);
+
+        
+        //Ustawiæ ich prêdkoœæ w zale¿noœci od odleg³oœci
+        _.gameObject.GetComponent<Enemy>().SetSpeed(100);
+    }
+
     void SpawnObstacles() => SpawnObjects(gameObjectsObstaclesToSpawn);
-  
 
     private void SpawnObjects(GameObject[] gameObjectToSpawn)
     {
@@ -42,9 +78,9 @@ public class SpawnManager : MonoBehaviour
 
         if (!GameManager.gameManagerInstance.isGameOver)
         {
-            var gameObject = Instantiate(gameObjectToSpawn[index], new Vector3(Random.Range(7f, 13f), gameObjectToSpawn[index].transform.position.y, 0f), gameObjectToSpawn[index].transform.rotation);
-            //gameObject.GetComponent<Enemy>()
-
+            var gameObject = Instantiate(gameObjectToSpawn[index], new Vector3(Random.Range(7f, 12f),
+                gameObjectToSpawn[index].transform.position.y, 0f),
+                gameObjectToSpawn[index].transform.rotation);
         }
     }
 

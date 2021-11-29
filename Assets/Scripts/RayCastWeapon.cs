@@ -56,7 +56,7 @@ public class RayCastWeapon : MonoBehaviour
     {
         damage = 25;
         currentWeapon = "rifle";
-        fireRate = 1f;
+        fireRate = 0.9f;
     }
 
     public static int GetCurrentValueOfDamage() => damage;

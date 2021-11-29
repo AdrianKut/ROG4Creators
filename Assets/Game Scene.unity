@@ -945,7 +945,7 @@ MonoBehaviour:
   timeToRenewSuperAmmo: 1
   timeToRenewHighSpeed: 1
   buttonHighSpeed: {fileID: 1805105085}
-  highSpeedDuration: 15
+  highSpeedDuration: 10
   buttonLaser: {fileID: 1800100471}
   laserDuration: 10
   timeToRenewLaser: 1
@@ -2573,7 +2573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armTransform: {fileID: 2070556328558553906}
   firePoint: {fileID: 642016380}
-  fireRate: 1
+  fireRate: 0.9
   impactEffect: {fileID: 1473625048454486, guid: 284f05ab582ef494a9ab1dd8bc1e76ae, type: 3}
   lineRenderer: {fileID: 2099417267}
   collisionLayerMask:
@@ -5146,16 +5146,10 @@ MonoBehaviour:
   spawnObstaclesInterval: 3
   gameObjectsMonstersToSpawn:
   - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
-  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
-  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
-  - {fileID: 2430986630103516755, guid: 023188455352e334e93951e725fb8657, type: 3}
   - {fileID: 461755012856003774, guid: db20c2a2d18e94c438f7b712a3f6703d, type: 3}
-  - {fileID: 461755012856003774, guid: db20c2a2d18e94c438f7b712a3f6703d, type: 3}
-  - {fileID: 6985783733045477433, guid: e8157b74025fe92409b41c86cf4114b4, type: 3}
   - {fileID: 8424992120847453258, guid: 6088aa62f38f6d84cbaf66d92172b990, type: 3}
+  - {fileID: 6985783733045477433, guid: e8157b74025fe92409b41c86cf4114b4, type: 3}
   - {fileID: 2121255845919116562, guid: 66056aa28dfa5c040819feab37d52edb, type: 3}
-  spawnMonstersDelay: 3
-  spawnMonstersInterval: 2
 --- !u!4 &1766533163
 Transform:
   m_ObjectHideFlags: 0
@@ -6603,8 +6597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798d4047c6a57d2438a069431bb26d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
   xBound: -47.35
+  startPos: {x: 0, y: 0, z: 0}
 --- !u!4 &2036320016
 Transform:
   m_ObjectHideFlags: 0
