@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  moveSpeed: 11.5
+  moveSpeed: 10
   deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
   moneyAmount: 0
   enemyType: 1
@@ -286,6 +286,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6618643286323316916, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493406376953371870, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493406376953371870, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

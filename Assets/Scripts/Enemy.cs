@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private float moveSpeed = 10f;
-
     public void SetSpeed(float speed) => moveSpeed = speed;
     public float GetSeed() => moveSpeed;
 
@@ -72,12 +71,6 @@ public class Enemy : MonoBehaviour
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
                 Destroy(transform.GetChild(0).gameObject);
                 Destroy(transform.GetComponent<SpriteRenderer>());
-                ////Delete sprite 
-                //if (transform.childCount >= 1)
-                //    Destroy(transform.GetChild(0).gameObject);
-                //else
-                //    Destroy(transform.GetComponent<SpriteRenderer>());
-
                 Destroy(gameObject.GetComponent<Collider2D>());
                 Destroy(gameObject, 2f);
                 break;

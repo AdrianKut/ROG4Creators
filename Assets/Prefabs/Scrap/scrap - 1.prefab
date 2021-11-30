@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  moveSpeed: 11.5
+  moveSpeed: 10
   deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
   moneyAmount: 0
   enemyType: 1
@@ -222,6 +222,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9109062702271143770}
     m_Modifications:
+    - target: {fileID: 4566917200865734994, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6616780609641856374, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
       propertyPath: m_Name
       value: Smoke
@@ -269,6 +273,14 @@ PrefabInstance:
     - target: {fileID: 6618643286323316916, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493406376953371870, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493406376953371870, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fe9a761200a6b24b95cfe55b0396911, type: 3}
