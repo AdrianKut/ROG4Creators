@@ -69,7 +69,7 @@ public class RayCastWeapon : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton("Fire1") && timer <= 0 && !GameManager.gameManagerInstance.isGameOver)
+        if (Input.GetButton("Fire1") && timer <= 0 && !GameManager.GameManagerInstance.isGameOver)
         {
             timer = fireRate;
             if (currentWeapon == "laser")
@@ -93,7 +93,7 @@ public class RayCastWeapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!GameManager.gameManagerInstance.isGameOver)
+        if (!GameManager.GameManagerInstance.isGameOver)
         {
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var dir = pos - armTransform.position;

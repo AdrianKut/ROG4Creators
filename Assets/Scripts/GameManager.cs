@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGameOverEvent;
     public float gameOverDelay = 1.5f;
 
-    public static GameManager gameManagerInstance;
+    public static GameManager GameManagerInstance;
     private void Awake()
     {
         Application.targetFrameRate = 300;
 
-        if (gameManagerInstance == null)
-            gameManagerInstance = this;
+        if (GameManagerInstance == null)
+            GameManagerInstance = this;
     }
 
 
@@ -59,32 +59,8 @@ public class GameManager : MonoBehaviour
         UpdateBestScoreText();
     }
 
-    private float increaseSpeedAfterSec = 10f;
-    private bool canIncrease = true;
     void Update()
     {
-        increaseSpeedAfterSec -= 1f * Time.deltaTime;
-        if (increaseSpeedAfterSec < 0)
-        {
-            Debug.LogWarning("PRZYSPIESZENIE");
-            var _ = LoopBackground.GetSpeed();
-            LoopBackground.SetSpeed(_ += 0.5f);
-
-            increaseSpeedAfterSec = 10;
-        }
-
-        //after 100 metres
-        if ((int)distanceCounter >1 && ((int)distanceCounter % 500 == 0 && canIncrease))
-        {
-            canIncrease = false;
-            Debug.Log((int)distanceCounter);
-            Debug.Log("TERAZ! PRZYSPIESZAMY!");
-            SpawnManager.spawnDelay -= 0.10f;
-        
-        }
-
-
-
         if (!isPaused && !isGameOver)
         {
             if (Input.GetKeyDown(KeyCode.P))
@@ -121,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     private void IncreaseMoneyPerSeconds()
     {
-        money += 0.001f;
+        money += 0.005f;
         textMoney.SetText($"{money:F0} $");
     }
 
@@ -202,6 +178,23 @@ public class GameManager : MonoBehaviour
     public void Spawn()
     {
         Instantiate(monster, new Vector3(3.47f, 2f, 0f), Quaternion.identity);
+    }
+
+    private bool xd = false;
+    public void IncreaseSpeed()
+    {
+        xd = !xd;
+        if (!xd)
+        {
+            distanceMultipier *= 10;
+            Time.timeScale *= 10f;
+        }
+        else if (xd)
+        {
+            distanceMultipier = 0.05f;
+            Time.timeScale = 1f;
+        }
+
     }
     #endregion
 

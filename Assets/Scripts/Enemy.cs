@@ -62,11 +62,11 @@ public class Enemy : MonoBehaviour
 
             case "shield":
             case "bullet":
-                GameManager.gameManagerInstance.IncreaseMoney(moneyAmount);
+                GameManager.GameManagerInstance.IncreaseMoney(moneyAmount);
                 goto destroy;
 
             case "player":
-                GameManager.gameManagerInstance.GameOver();
+                GameManager.GameManagerInstance.GameOver();
             destroy:
                 audioSource.Play();
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case "obstacle":
-                GameManager.gameManagerInstance.GameOver();
+                GameManager.GameManagerInstance.GameOver();
                 break;
         }
 

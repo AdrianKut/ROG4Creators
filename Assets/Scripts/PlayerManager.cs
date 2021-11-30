@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.gameManagerInstance.OnGameOverEvent.AddListener(GameOver);
+        GameManager.GameManagerInstance.OnGameOverEvent.AddListener(GameOver);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.gameManagerInstance.isGameOver)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.GameManagerInstance.isGameOver)
         {
 
             audioSource.PlayOneShot(audioClip[1]);

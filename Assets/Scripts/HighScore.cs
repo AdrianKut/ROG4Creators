@@ -11,7 +11,7 @@ public class HighScore : MonoBehaviour
 
     void Start()
     {
-        GameManager.gameManagerInstance.OnHighscore.AddListener(DisplayTextHighScore);
+        GameManager.GameManagerInstance.OnHighscore.AddListener(DisplayTextHighScore);
 
         text = this.gameObject.GetComponent<TextMeshProUGUI>();
         audioSource = this.gameObject.GetComponent<AudioSource>();

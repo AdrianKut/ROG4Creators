@@ -1,15 +1,17 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum PowerUpType
 {
-    Shield = 20,
-    HighSpeed = 30,
-    Laser = 50,
-    SuperAmmo = 100
+    Shield = 25,
+    SlowMotion = 50,
+    Laser = 75,
+    SuperAmmo = 100,
+    Nuke = 150
 }
 
 public class PowerUpManager : MonoBehaviour
@@ -32,9 +34,18 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     Sprite highSpeedSprite;
 
+    private LoopBackground loopBackground;
     private GameManager gameManager;
     private AudioSource audioSource;
     private GameObject player;
+
+    public static PowerUpManager PowerUpManagerInstance;
+
+    private void Awake()
+    {
+        if (PowerUpManagerInstance == null)
+            PowerUpManagerInstance = this;
+    }
 
     void Start()
     {
@@ -42,7 +53,9 @@ public class PowerUpManager : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
 
-        gameManager = GameManager.gameManagerInstance;
+        loopBackground = GameObject.FindGameObjectWithTag("Background").GetComponent<LoopBackground>();
+
+        gameManager = GameManager.GameManagerInstance;
         gameManager.OnGameOverEvent.AddListener(HidePowerUpsUI);
         gameManager.OnPauseEvent.AddListener(HidePowerUpsUI);
     }
@@ -57,7 +70,7 @@ public class PowerUpManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && buttonShield.interactable)
             BuyShield();
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && buttonHighSpeed.interactable)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && buttonSlowMotion.interactable)
             BuyHighSpeed();
 
         if (Input.GetKeyDown(KeyCode.Alpha3) && buttonLaser.interactable)
@@ -215,61 +228,59 @@ public class PowerUpManager : MonoBehaviour
     }
     #endregion
 
-    #region HighSpeed
+    #region SlowMo
 
     [Header("HighSpeed")]
+    public UnityEvent OnSlowMotionActivated;
+    public UnityEvent OnSlowMotionDeactivated;
 
     [SerializeField]
     private float timeToRenewHighSpeed;
 
     [SerializeField]
-    private Button buttonHighSpeed;
-
-    public short highSpeedDuration = 10;
-    private static bool isHighSpeedActivated = false;
-    public static bool HighSpeedActivated() => isHighSpeedActivated == true ? true : false;
+    private Button buttonSlowMotion;
+    public short slowMotionDuration = 10;
+    private static bool isSlowMotionActivated = false;
+    public static bool SlowMotionActivated() => isSlowMotionActivated == true ? true : false;
     public void BuyHighSpeed()
     {
-        if (gameManager.money >= (int)PowerUpType.HighSpeed)
+        if (gameManager.money >= (int)PowerUpType.SlowMotion)
         {
             audioSource.Play();
-            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.HighSpeed);
-            StartCoroutine(EnableHighSpeed());
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.SlowMotion);
+            StartCoroutine(EnableSlowMotion());
         }
         else
-            StartCoroutine(ChangeColorOfButtonToRed(buttonHighSpeed));    
+            StartCoroutine(ChangeColorOfButtonToRed(buttonSlowMotion));    
     }
 
-    private IEnumerator EnableHighSpeed()
+    private IEnumerator EnableSlowMotion()
     {
-        var currentSpeed = LoopBackground.GetSpeed();
+        isSlowMotionActivated = true;
+        OnSlowMotionActivated?.Invoke();
+        var currentSpeedBackground = loopBackground.speed;
 
-        buttonHighSpeed.interactable = false;
-
-        Time.timeScale = 2;
-        LoopBackground.SetSpeed(currentSpeed *= 3);
-
-        gameManager.distanceMultipier *= 2;
+        buttonSlowMotion.interactable = false;
+        loopBackground.speed = (currentSpeedBackground / 2);
 
         GameObject powerUpIcon;
         TextMeshProUGUI textPowerUpDuration;
-        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, highSpeedSprite, highSpeedDuration);
+        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, highSpeedSprite, slowMotionDuration);
 
-        for (int i = highSpeedDuration; i > 0; i--)
+        for (int i = slowMotionDuration; i > 0; i--)
         {
             textPowerUpDuration.SetText("" + i);
             yield return new WaitForSeconds(1f);
         }
 
+        loopBackground.speed = currentSpeedBackground + 0.5f;
 
-        LoopBackground.SetSpeed(currentSpeed /= 3);
-        gameManager.distanceMultipier /= 2;
-        Time.timeScale = 1;
+        isSlowMotionActivated = false;
+        OnSlowMotionDeactivated?.Invoke();
 
         Destroy(powerUpIcon);
-
         yield return new WaitForSeconds(timeToRenewHighSpeed);
-        buttonHighSpeed.interactable = true;
+        buttonSlowMotion.interactable = true;
     }
     #endregion
 

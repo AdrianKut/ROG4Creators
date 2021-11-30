@@ -1,88 +1,159 @@
 using System.Collections;
 using UnityEngine;
+using System.Linq;
 
 public class SpawnManager : MonoBehaviour
 {
+
     [Header("Obstacles")]
     [SerializeField]
     GameObject[] gameObjectsObstaclesToSpawn;
-
-    [SerializeField]
-    private float spawnObstaclesDelay;
-
-    [SerializeField]
-    private float spawnObstaclesInterval;
+    public static float spawnObstacleDelay = 2.5f;
 
     [Header("Monsters")]
     [SerializeField]
     GameObject[] gameObjectsMonstersToSpawn;
+    public static float spawnMonsterDelay = 2.5f;
 
+    private PowerUpManager powerUpManager;
     private void Awake()
     {
+        //Starting speed of obstacles
+        gameObjectsObstaclesToSpawn.ToList().ForEach(x => x.GetComponent<Enemy>().SetSpeed(10));
+
         StartCoroutine(SpawnEnemies());
-        InvokeRepeating("SpawnObstacles", spawnObstaclesDelay, spawnObstaclesInterval);
+        StartCoroutine(SpawnObstacles());
+
+        powerUpManager = PowerUpManager.PowerUpManagerInstance;
+        powerUpManager.OnSlowMotionActivated.AddListener(DecreaseSpeedObjects);
+        powerUpManager.OnSlowMotionDeactivated.AddListener(IncreaseSpeedObjects);
     }
 
-    public static float spawnDelay = 2.5f;
+    private void DecreaseSpeedObjects()
+    {
+        var objects = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var item in objects)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed / 2);
+        }
+
+
+        foreach (var item in gameObjectsObstaclesToSpawn)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed / 2);
+        }
+
+
+        foreach (var item in gameObjectsMonstersToSpawn)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed / 2);
+        }
+    }
+
+    private void IncreaseSpeedObjects()
+    {
+        var objects = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var item in objects)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed * 2);
+        }
+
+        foreach (var item in gameObjectsObstaclesToSpawn)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed * 2);
+        }
+
+
+        foreach (var item in gameObjectsMonstersToSpawn)
+        {
+            var _enemy = item.GetComponent<Enemy>();
+            var _speed = _enemy.GetSeed();
+            _enemy.SetSpeed(_speed * 2);
+        }
+    }
+  
+ 
     IEnumerator SpawnEnemies()
     {
         int index;
         while (true)
         {
             index = Random.Range(0, 2);
-            MonsterToSpawn(index);
+            ObjectToSpawn(index);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(spawnMonsterDelay);
 
             index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
-            MonsterToSpawn(index);
+            ObjectToSpawn(index);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(spawnMonsterDelay);
 
             index = Random.Range(0, 2);
-            MonsterToSpawn(index);
+            ObjectToSpawn(index);
 
-            yield return new WaitForSeconds(spawnDelay);
-
-            index = Random.Range(0, 4);
-            MonsterToSpawn(index);
-
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(spawnMonsterDelay);
 
             index = Random.Range(0, 4);
-            MonsterToSpawn(index);
+            ObjectToSpawn(index);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(spawnMonsterDelay);
+
+            index = Random.Range(0, 4);
+            ObjectToSpawn(index);
+
+            yield return new WaitForSeconds(spawnMonsterDelay);
 
             index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
-            MonsterToSpawn(index);
+            ObjectToSpawn(index);
         }
     }
 
-    private void MonsterToSpawn(int index)
+    private void ObjectToSpawn(int index)
     {
-        var _ =  Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(7f, 13f),
+        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(7f, 13f),
                         gameObjectsMonstersToSpawn[index].transform.position.y, 0f),
                         gameObjectsMonstersToSpawn[index].transform.rotation);
-
-        
-        //Ustawiæ ich prêdkoœæ w zale¿noœci od odleg³oœci
-        _.gameObject.GetComponent<Enemy>().SetSpeed(100);
     }
 
-    void SpawnObstacles() => SpawnObjects(gameObjectsObstaclesToSpawn);
+    IEnumerator SpawnObstacles()
+    {     
+        int cycleCounter = 0;
 
-    private void SpawnObjects(GameObject[] gameObjectToSpawn)
-    {
-        int index = Random.Range(0, gameObjectToSpawn.Length);
-
-        if (!GameManager.gameManagerInstance.isGameOver)
+        while (true)
         {
-            var gameObject = Instantiate(gameObjectToSpawn[index], new Vector3(Random.Range(7f, 12f),
-                gameObjectToSpawn[index].transform.position.y, 0f),
-                gameObjectToSpawn[index].transform.rotation);
+            yield return new WaitForSeconds(Random.Range(spawnObstacleDelay,4f));
+
+            int index = Random.Range(0, gameObjectsObstaclesToSpawn.Length);
+            if (!GameManager.GameManagerInstance.isGameOver)
+            {
+                var gameObject = Instantiate(gameObjectsObstaclesToSpawn[index], new Vector3(Random.Range(7f, 12f),
+                    gameObjectsObstaclesToSpawn[index].transform.position.y, 0f),
+                    gameObjectsObstaclesToSpawn[index].transform.rotation);
+            }
+
+            if (cycleCounter % 5 == 0 && cycleCounter != 0)
+            {
+                foreach (var item in gameObjectsObstaclesToSpawn)
+                {
+                    var _enemy = item.GetComponent<Enemy>();
+                    var _speed = _enemy.GetSeed();
+                    _enemy.SetSpeed(_speed += 0.5f);
+                }
+            }
+
+            cycleCounter++;
+
+
         }
     }
-
-
 }
