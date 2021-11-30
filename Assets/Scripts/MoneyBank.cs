@@ -10,7 +10,7 @@ public class MoneyBank : MonoBehaviour
 
     void Start()
     {
-        LeanTween.moveY(this.gameObject, 5f, 0.9f).setEaseInOutQuad().setLoopPingPong();    
+        LeanTween.moveY(this.gameObject, 6f, 0.8f).setEaseInOutQuad().setLoopPingPong();    
     }
 
     void Update()

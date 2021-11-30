@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,10 @@ public class GameManager : MonoBehaviour
 {
     [Header("LEVEL UI")]
     public GameObject GameObjectLevelUI;
+
+    [Header("Player")]
+    public GameObject PlayerGameObject;
+    private Vector3 startPosPlayer;
 
     [Header("Distance Score")]
     public float distanceCounter;
@@ -46,6 +51,8 @@ public class GameManager : MonoBehaviour
 
         if (GameManagerInstance == null)
             GameManagerInstance = this;
+
+        startPosPlayer = PlayerGameObject.transform.position;
     }
 
 
@@ -130,6 +137,8 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        PlayerGameObject.SetActive(false);
+        
         isPaused = true;
         OnPauseEvent?.Invoke();
 
@@ -139,6 +148,9 @@ public class GameManager : MonoBehaviour
 
     public void Resume()
     {
+        PlayerGameObject.transform.position = startPosPlayer;
+        PlayerGameObject.SetActive(true);
+
         isPaused = false;
         OnPauseEvent?.Invoke();
         PauseMenu.SetActive(false);

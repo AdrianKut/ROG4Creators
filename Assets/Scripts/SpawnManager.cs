@@ -144,7 +144,7 @@ public class SpawnManager : MonoBehaviour
 
     private void ObjectToSpawn(int index)
     {
-        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(8f, 17f),
+        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(10f, 20f),
                         gameObjectsMonstersToSpawn[index].transform.position.y, 0f),
                         gameObjectsMonstersToSpawn[index].transform.rotation);
     }
@@ -160,7 +160,7 @@ public class SpawnManager : MonoBehaviour
             int index = Random.Range(0, gameObjectsObstaclesToSpawn.Length);
             if (!GameManager.GameManagerInstance.isGameOver)
             {
-                var gameObject = Instantiate(gameObjectsObstaclesToSpawn[index], new Vector3(Random.Range(8f, 14f),
+                var gameObject = Instantiate(gameObjectsObstaclesToSpawn[index], new Vector3(Random.Range(10f, 16f),
                     gameObjectsObstaclesToSpawn[index].transform.position.y, 0f),
                     gameObjectsObstaclesToSpawn[index].transform.rotation);
             }
@@ -185,8 +185,8 @@ public class SpawnManager : MonoBehaviour
         {
             spawnDelay = Random.Range(20f, 60f);
             yield return new WaitForSeconds(spawnDelay);
-            var randomPosX = Random.Range(8f, 20f);
-            var randomPosY = Random.Range(7f, 8f);
+            var randomPosX = Random.Range(10f, 20f);
+            var randomPosY = Random.Range(8f, 9f);
 
             Instantiate(gameObjectMoneyBank, new Vector3(randomPosX,randomPosY,0f), Quaternion.identity);
 
