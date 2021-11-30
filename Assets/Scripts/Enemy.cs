@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour
     EnemyType enemyType;
 
     public EnemyType GetEnemyType() => enemyType;
-
     private void Awake()
     {
         yPos = transform.position.y;
@@ -42,7 +41,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 newPos = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, 4, 0);
         transform.position = new Vector3(newPos.x, yPos, newPos.z);
-    
+
         if (newPos.x <= -20f)
             Destroy(this.gameObject);
     }
@@ -57,7 +56,7 @@ public class Enemy : MonoBehaviour
     public void Die() => Die("nuke");
 
     private void Die(string typeOfDeath)
-    {        
+    {
         switch (typeOfDeath)
         {
             case "shield":
@@ -71,7 +70,7 @@ public class Enemy : MonoBehaviour
             destroy:
                 audioSource.Play();
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
-               
+
                 for (int i = 0; i < transform.childCount; i++)
                     Destroy(transform.GetChild(i).gameObject);
 
@@ -90,23 +89,24 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Monster)
+        if (this.gameObject.name.Contains("MoneyBank") == false)
         {
-            Die("shield");
+            if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Monster)
+            {
+                Die("shield");
+            }
+            else if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Obstacle)
+            {
+                Die("shield");
+            }
+            else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Monster)
+            {
+                Die("player");
+            }
+            else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Obstacle)
+            {
+                Die("obstacle");
+            }
         }
-        else if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Obstacle)
-        {
-            Die("shield");
-        }
-        else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Monster)
-        {
-            Die("player");
-        }
-        else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Obstacle)
-        {
-            Die("obstacle");
-        }
-
-
     }
 }

@@ -198,4 +198,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public UnityEvent OnDestroyMoneyPig;
+    
+
 }

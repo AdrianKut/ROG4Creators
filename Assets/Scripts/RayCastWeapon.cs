@@ -121,6 +121,9 @@ public class RayCastWeapon : MonoBehaviour
             var enemy = hitInfo.transform.GetComponent<Enemy>();
             if (enemy != null && enemy.GetEnemyType() == EnemyType.Monster)
             {
+                if (enemy.name.Contains("MoneyBank"))
+                    GameManager.GameManagerInstance.OnDestroyMoneyPig?.Invoke();
+
                 enemy.TakeDamage(damage);
                 impactGameObject = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
             }
