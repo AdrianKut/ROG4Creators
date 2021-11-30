@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum PowerUpType
@@ -33,6 +32,9 @@ public class PowerUpManager : MonoBehaviour
 
     [SerializeField]
     Sprite highSpeedSprite;
+
+    [SerializeField]
+    Sprite nukeSprite;
 
     private LoopBackground loopBackground;
     private GameManager gameManager;
@@ -71,13 +73,16 @@ public class PowerUpManager : MonoBehaviour
             BuyShield();
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && buttonSlowMotion.interactable)
-            BuyHighSpeed();
+            BuySlowMotion();
 
         if (Input.GetKeyDown(KeyCode.Alpha3) && buttonLaser.interactable)
             BuyLaser();
 
         if (Input.GetKeyDown(KeyCode.Alpha4) && buttonSuperAmmo.interactable)
             BuySuperAmmo();
+
+        if (Input.GetKeyDown(KeyCode.Alpha5) && buttonNuke.interactable)
+            BuyNuke();
     }
 
     private void HidePowerUpsUI()
@@ -235,14 +240,15 @@ public class PowerUpManager : MonoBehaviour
     public UnityEvent OnSlowMotionDeactivated;
 
     [SerializeField]
-    private float timeToRenewHighSpeed;
+    private Button buttonSlowMotion;
 
     [SerializeField]
-    private Button buttonSlowMotion;
+    private float timeToRenewHighSpeed;
+
     public short slowMotionDuration = 10;
     private static bool isSlowMotionActivated = false;
     public static bool SlowMotionActivated() => isSlowMotionActivated == true ? true : false;
-    public void BuyHighSpeed()
+    public void BuySlowMotion()
     {
         if (gameManager.money >= (int)PowerUpType.SlowMotion)
         {
@@ -251,7 +257,7 @@ public class PowerUpManager : MonoBehaviour
             StartCoroutine(EnableSlowMotion());
         }
         else
-            StartCoroutine(ChangeColorOfButtonToRed(buttonSlowMotion));    
+            StartCoroutine(ChangeColorOfButtonToRed(buttonSlowMotion));
     }
 
     private IEnumerator EnableSlowMotion()
@@ -349,6 +355,58 @@ public class PowerUpManager : MonoBehaviour
 
         yield return new WaitForSeconds(timeToRenewLaser);
         buttonLaser.interactable = true;
+    }
+    #endregion
+
+    #region Nuke
+    [Header("Nuke")]
+
+    [SerializeField]
+    private Button buttonNuke;
+
+    [SerializeField]
+    private float nukeDuration;
+
+    [SerializeField]
+    private float timeToRenewNuke;
+
+    [SerializeField]
+    GameObject gameObjectNuke;
+
+    public void BuyNuke()
+    {
+        if (gameManager.money >= (int)PowerUpType.Nuke)
+        {
+            audioSource.Play();
+            gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.Nuke);
+            StartCoroutine(EnableNuke());
+        }
+        else
+            StartCoroutine(ChangeColorOfButtonToRed(buttonNuke));
+    }
+
+    private IEnumerator EnableNuke()
+    {
+        buttonNuke.interactable = false;
+
+        GameObject powerUpIcon;
+        TextMeshProUGUI textPowerUpDuration;
+        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, nukeSprite, 5);
+
+
+        for (float i = nukeDuration; i > 0; i--)
+        {
+            textPowerUpDuration.SetText("" + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        Instantiate(gameObjectNuke, gameObjectNuke.transform.position, Quaternion.identity);
+
+
+        Destroy(powerUpIcon);
+
+        yield return new WaitForSeconds(timeToRenewNuke);
+        buttonNuke.interactable = true;
     }
     #endregion
 }

@@ -937,6 +937,7 @@ MonoBehaviour:
   laserSprite: {fileID: 21300000, guid: 492b9988436bd45049a9a6bc52ac8fb0, type: 3}
   superAmmoSprite: {fileID: 21300000, guid: 1cafae377352e4777bf22d10ddbf1be0, type: 3}
   highSpeedSprite: {fileID: 21300000, guid: c60c7f4cabccc364c892c259d2dde455, type: 3}
+  nukeSprite: {fileID: 21300000, guid: bb648a52643659944bb73cb541793017, type: 3}
   GameObjectShield: {fileID: 1286056358234109774, guid: a1df03ae5e5d4eb42bc48d14eff9c55b, type: 3}
   buttonShield: {fileID: 2131896031}
   shieldDuration: 10
@@ -950,12 +951,16 @@ MonoBehaviour:
   OnSlowMotionDeactivated:
     m_PersistentCalls:
       m_Calls: []
-  timeToRenewHighSpeed: 1
   buttonSlowMotion: {fileID: 1805105085}
+  timeToRenewHighSpeed: 1
   slowMotionDuration: 10
   buttonLaser: {fileID: 1800100471}
   laserDuration: 10
   timeToRenewLaser: 1
+  buttonNuke: {fileID: 733123545}
+  nukeDuration: 0
+  timeToRenewNuke: 1.5
+  gameObjectNuke: {fileID: 4729088254185501070, guid: dc73ffdd23c1b2d43bdb03cbd7a66747, type: 3}
 --- !u!82 &270586458
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2156,7 +2161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 270586457}
         m_TargetAssemblyTypeName: PowerUpManager, Assembly-CSharp
-        m_MethodName: BuySuperAmmo
+        m_MethodName: BuyNuke
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2631,7 +2636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &820667351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4845,7 +4850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1378721573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5817,7 +5822,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 270586457}
         m_TargetAssemblyTypeName: PowerUpManager, Assembly-CSharp
-        m_MethodName: BuyHighSpeed
+        m_MethodName: BuySlowMotion
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

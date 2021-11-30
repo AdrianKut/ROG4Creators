@@ -54,13 +54,15 @@ public class Enemy : MonoBehaviour
             Die("bullet");
     }
 
+    public void Die() => Die("nuke");
+
     private void Die(string typeOfDeath)
-    {
+    {        
         switch (typeOfDeath)
         {
-
             case "shield":
             case "bullet":
+            case "nuke":
                 GameManager.GameManagerInstance.IncreaseMoney(moneyAmount);
                 goto destroy;
 
@@ -69,7 +71,11 @@ public class Enemy : MonoBehaviour
             destroy:
                 audioSource.Play();
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
-                Destroy(transform.GetChild(0).gameObject);
+               
+                for (int i = 0; i < transform.childCount; i++)
+                    Destroy(transform.GetChild(i).gameObject);
+
+                //Destroy(transform.GetChild(0).gameObject);
                 Destroy(transform.GetComponent<SpriteRenderer>());
                 Destroy(gameObject.GetComponent<Collider2D>());
                 Destroy(gameObject, 2f);

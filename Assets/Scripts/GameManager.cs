@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney()
     {
-        money += 10;
+        money += 50;
     }
 
     [SerializeField]

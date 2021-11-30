@@ -45,7 +45,8 @@ public class SpawnManager : MonoBehaviour
 
     private void DecreaseSpeedObjects()
     {
-        var objects = GameObject.FindGameObjectsWithTag("Enemy");
+        //Objects on scene
+        var objects = GameObject.FindObjectsOfType<Enemy>();
         foreach (var item in objects)
         {
             var _enemy = item.GetComponent<Enemy>();
@@ -53,7 +54,7 @@ public class SpawnManager : MonoBehaviour
             _enemy.SetSpeed(_speed / 2);
         }
 
-
+        //Prefab Obstacles
         foreach (var item in gameObjectsObstaclesToSpawn)
         {
             var _enemy = item.GetComponent<Enemy>();
@@ -61,18 +62,19 @@ public class SpawnManager : MonoBehaviour
             _enemy.SetSpeed(_speed / 2);
         }
 
-
+        //Prefab Monsters
         foreach (var item in gameObjectsMonstersToSpawn)
         {
             var _enemy = item.GetComponent<Enemy>();
             var _speed = _enemy.GetSeed();
             _enemy.SetSpeed(_speed / 2);
         }
+
     }
 
     private void IncreaseSpeedObjects()
     {
-        var objects = GameObject.FindGameObjectsWithTag("Enemy");
+        var objects = GameObject.FindObjectsOfType<Enemy>();
         foreach (var item in objects)
         {
             var _enemy = item.GetComponent<Enemy>();
@@ -124,7 +126,7 @@ public class SpawnManager : MonoBehaviour
 
             index = Random.Range(0, 4);
             ObjectToSpawn(index);
-
+            
             yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
 
             index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
