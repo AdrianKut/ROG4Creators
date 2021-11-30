@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    [Header("Money Bank")]
+    GameObject gameObjectMoneyBank;
 
     [Header("Obstacles")]
     [SerializeField]
@@ -104,31 +106,23 @@ public class SpawnManager : MonoBehaviour
         int index;
         while (true)
         {
+            yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
             index = Random.Range(0, 2);
             ObjectToSpawn(index);
 
             yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
-
-            index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
+            index = Random.Range(2, 4);
             ObjectToSpawn(index);
 
             yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
-
             index = Random.Range(0, 2);
             ObjectToSpawn(index);
 
             yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
-
-            index = Random.Range(0, 4);
-            ObjectToSpawn(index);
-
-            yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
-
-            index = Random.Range(0, 4);
+            index = Random.Range(2, gameObjectsMonstersToSpawn.Length);
             ObjectToSpawn(index);
             
             yield return new WaitForSeconds(spawnMonsterDelay); // 2.5s
-
             index = Random.Range(0, gameObjectsMonstersToSpawn.Length);
             ObjectToSpawn(index);
 
@@ -141,14 +135,14 @@ public class SpawnManager : MonoBehaviour
                 _enemy.SetSpeed(_speed += 0.05f);
             }
 
-            if (spawnMonsterDelay >= 2f)
+            if (spawnMonsterDelay >= 1.5f)
                 spawnMonsterDelay -= 0.025f;
         }
     }
 
     private void ObjectToSpawn(int index)
     {
-        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(7.5f, 16f),
+        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(8f, 17f),
                         gameObjectsMonstersToSpawn[index].transform.position.y, 0f),
                         gameObjectsMonstersToSpawn[index].transform.rotation);
     }
@@ -164,7 +158,7 @@ public class SpawnManager : MonoBehaviour
             int index = Random.Range(0, gameObjectsObstaclesToSpawn.Length);
             if (!GameManager.GameManagerInstance.isGameOver)
             {
-                var gameObject = Instantiate(gameObjectsObstaclesToSpawn[index], new Vector3(Random.Range(7.5f, 13f),
+                var gameObject = Instantiate(gameObjectsObstaclesToSpawn[index], new Vector3(Random.Range(8f, 14f),
                     gameObjectsObstaclesToSpawn[index].transform.position.y, 0f),
                     gameObjectsObstaclesToSpawn[index].transform.rotation);
             }

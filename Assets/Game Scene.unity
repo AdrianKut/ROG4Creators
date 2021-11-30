@@ -2857,7 +2857,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 823
-  maxArmRotations: {x: -20, y: 20}
+  maxArmRotations: {x: -20, y: 30}
   shootAudioSource: {fileID: 104601735734019900}
   audioLaserShoot: {fileID: 8300000, guid: 7c777e1d34c763b4da714d33a55e766d, type: 3}
   audioRifleShoot: {fileID: 8300000, guid: 4034335923ae29c4fbe725bda918eb58, type: 3}
@@ -3373,7 +3373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000398609}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2, y: 4, z: -10}
+  m_LocalPosition: {x: -1.5, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7703,6 +7703,63 @@ Transform:
   m_Father: {fileID: 943913060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2280301031357769572
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883778, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583648385075883854, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
+      propertyPath: m_Name
+      value: MoneyBank
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
 --- !u!222 &3833819764905455239
 CanvasRenderer:
   m_ObjectHideFlags: 0
