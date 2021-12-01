@@ -235,7 +235,7 @@ public class PowerUpManager : MonoBehaviour
 
     #region SlowMo
 
-    [Header("HighSpeed")]
+    [Header("Slow Motion")]
     public UnityEvent OnSlowMotionActivated;
     public UnityEvent OnSlowMotionDeactivated;
 
@@ -336,22 +336,26 @@ public class PowerUpManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
-            rayCastWeapon.UseRifle();
         }
         else
         {
             rayCastWeapon.UseLaser();
-
             for (int i = laserDuration; i > 0; i--)
             {
                 textPowerUpDuration.SetText("" + i);
                 yield return new WaitForSeconds(1f);
             }
-
-            rayCastWeapon.UseRifle();
         }
 
         Destroy(powerUpIcon);
+
+        if (isSuperAmmoActivated)
+        {
+            rayCastWeapon.UseRifle();
+            rayCastWeapon.ChangeValueOfFireRate(0.15f);
+        }
+        else
+            rayCastWeapon.UseRifle();
 
         yield return new WaitForSeconds(timeToRenewLaser);
         buttonLaser.interactable = true;

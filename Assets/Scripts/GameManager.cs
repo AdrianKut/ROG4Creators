@@ -40,18 +40,21 @@ public class GameManager : MonoBehaviour
     public void IncreaseMoney(int moneyAmount) => money += moneyAmount;
     public void BuyPowerUpTypeAndDecreaseMoney(PowerUpType powerUpType) => money -= (int)powerUpType;
 
-
     public UnityEvent OnGameOverEvent;
     public float gameOverDelay = 1.5f;
 
+    private AudioSource audioSource;
+
     public static GameManager GameManagerInstance;
     private void Awake()
-    {
+    { 
+
         Application.targetFrameRate = 300;
 
         if (GameManagerInstance == null)
             GameManagerInstance = this;
 
+        audioSource = GetComponent<AudioSource>();  
         startPosPlayer = PlayerGameObject.transform.position;
     }
 
@@ -85,7 +88,6 @@ public class GameManager : MonoBehaviour
             if (gameOverDelay <= 0)
             {
                 GameObjectLevelUI.SetActive(false);
-                Time.timeScale = 0f;
                 GameOverObject.SetActive(true);
 
                 //Save better distance score    
@@ -95,9 +97,7 @@ public class GameManager : MonoBehaviour
                     NewHighScoreText.SetText("NEW HIGH SCORE!");
                 }
 
-                //Mute all sounds
-                AudioListener.pause = true;
-                AudioListener.volume = 0;
+                audioSource.Stop();
             }
         }
     }
