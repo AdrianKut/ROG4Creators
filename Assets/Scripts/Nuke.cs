@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Nuke : MonoBehaviour
 {
-
-    
     [SerializeField]
     private GameObject deathEffect;
 

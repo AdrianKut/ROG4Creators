@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -10,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("LEVEL UI")]
     public GameObject GameObjectLevelUI;
+    public GameObject AskToExitGameObject;
 
     [Header("Player")]
     public GameObject PlayerGameObject;
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Distance Score")]
     public float distanceCounter;
-    public float distanceMultipier = 0.05f;
+    public float distanceMultipier = 0.3f;
     public TextMeshProUGUI textDistance;
 
     [Header("")]
@@ -47,14 +47,14 @@ public class GameManager : MonoBehaviour
 
     public static GameManager GameManagerInstance;
     private void Awake()
-    { 
+    {
 
         Application.targetFrameRate = 300;
 
         if (GameManagerInstance == null)
             GameManagerInstance = this;
 
-        audioSource = GetComponent<AudioSource>();  
+        audioSource = GetComponent<AudioSource>();
         startPosPlayer = PlayerGameObject.transform.position;
     }
 
@@ -69,13 +69,26 @@ public class GameManager : MonoBehaviour
         UpdateBestScoreText();
     }
 
-    void Update()
+    private void Update()
     {
         if (!isPaused && !isGameOver)
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
                 Pause();
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+                Resume();
+        }
 
+    }
+
+
+    void FixedUpdate()
+    {
+        if (!isPaused && !isGameOver)
+        {
             UpdateTimerText();
             IncreaseMoneyPerSeconds();
         }
@@ -104,11 +117,9 @@ public class GameManager : MonoBehaviour
 
     private void IncreaseMoneyPerSeconds()
     {
-        money += 0.005f;
+        money += 0.02f;
         textMoney.SetText($"{money:F0} $");
     }
-
-
 
     private void UpdateTimerText()
     {
@@ -129,32 +140,43 @@ public class GameManager : MonoBehaviour
     }
 
 
-    #region Pause Menu
+    #region Buttons
     [Header("Pause")]
-    public GameObject PauseMenu;
+    public GameObject PauseGameObject;
     public bool isPaused = false;
     public UnityEvent OnPauseEvent;
 
     public void Pause()
     {
+        audioSource.Pause();
         PlayerGameObject.SetActive(false);
-        
+
         isPaused = true;
         OnPauseEvent?.Invoke();
 
-        PauseMenu.SetActive(true);
+        PauseGameObject.SetActive(true);
         Time.timeScale = 0f;
     }
 
+
     public void Resume()
     {
+        audioSource.Play();
+        AskToExitGameObject.SetActive(false);
+
         PlayerGameObject.transform.position = startPosPlayer;
         PlayerGameObject.SetActive(true);
 
         isPaused = false;
         OnPauseEvent?.Invoke();
-        PauseMenu.SetActive(false);
+        PauseGameObject.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void Exit()
+    {
+        PauseGameObject.SetActive(false);
+        AskToExitGameObject.SetActive(true);
     }
 
     public void BackToMenu()
@@ -198,12 +220,10 @@ public class GameManager : MonoBehaviour
         xd = !xd;
         if (!xd)
         {
-            distanceMultipier *= 10;
             Time.timeScale *= 10f;
         }
         else if (xd)
         {
-            distanceMultipier = 0.05f;
             Time.timeScale = 1f;
         }
 
@@ -211,6 +231,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public UnityEvent OnDestroyMoneyPig;
-    
+
 
 }

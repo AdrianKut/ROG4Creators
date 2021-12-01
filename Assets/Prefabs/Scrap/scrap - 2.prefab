@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 8197653305515299251}
   - component: {fileID: 8197653305515299250}
   - component: {fileID: 8197653305515299249}
-  - component: {fileID: 8197653305515299244}
-  - component: {fileID: 8197653305515299248}
   - component: {fileID: 8197653305515299245}
+  - component: {fileID: 2357697199010243955}
   m_Layer: 0
   m_Name: scrap - 2
   m_TagString: Enemy
@@ -104,58 +103,6 @@ MonoBehaviour:
   deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
   moneyAmount: 0
   enemyType: 1
---- !u!61 &8197653305515299244
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197653305515299255}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 1.0423708, y: 0.23742306}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.91, y: 7.13}
-    newSize: {x: 19.5, y: 7.92}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.6854067, y: 5.0084276}
-  m_EdgeRadius: 0
---- !u!61 &8197653305515299248
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197653305515299255}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.8455353, y: -0.9154587}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.91, y: 7.13}
-    newSize: {x: 19.5, y: 7.92}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 7.2189293, y: 2.6857762}
-  m_EdgeRadius: 0
 --- !u!82 &8197653305515299245
 AudioSource:
   m_ObjectHideFlags: 0
@@ -252,6 +199,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &2357697199010243955
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197653305515299255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.70553726, y: -0.50580716}
+  serializedVersion: 2
+  m_Radius: 2.9200735
 --- !u!1001 &1227859799286299008
 PrefabInstance:
   m_ObjectHideFlags: 0

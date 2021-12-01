@@ -161,9 +161,10 @@ public class PowerUpManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        var a = LeanTween.alpha(this.gameObject, 0f, 0.5f).setEase(LeanTweenType.easeOutQuad);
+        LeanTween.scale(shield, new Vector3(0,0,0f), 7f).setEasePunch().setLoopPingPong();
+        LeanTween.alpha(shield, 0f, 0.8f).setEase(LeanTweenType.easeOutQuad);
 
-        Destroy(shield);
+        Destroy(shield, 1f);
         Destroy(powerUpIcon);
 
         isShieldActivated = false;

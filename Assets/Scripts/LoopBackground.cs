@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class LoopBackground : MonoBehaviour
 {
-    
+
     [SerializeField]
     public float xBound = -47.32f;
 
@@ -12,7 +11,7 @@ public class LoopBackground : MonoBehaviour
     public float speed = 5f;
 
     [SerializeField]
-    private  Vector3 startPos;
+    private Vector3 startPos;
 
     private void Awake()
     {
@@ -24,7 +23,7 @@ public class LoopBackground : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameManager.GameManagerInstance.isGameOver == false)
+        if (GameManager.GameManagerInstance.isGameOver == false && GameManager.GameManagerInstance.isPaused == false)
         {
             Vector3 newPos = new Vector3(transform.position.x - speed * Time.deltaTime, 4, 0);
             transform.position = newPos;
@@ -38,12 +37,13 @@ public class LoopBackground : MonoBehaviour
     IEnumerator IncreaseSpeedBackground()
     {
         while (true)
-        {       
-            yield return new WaitForSeconds(increaseSpeedDelay);
-            speed += 0.5f;
+        {        
+                yield return new WaitForSeconds(increaseSpeedDelay);
+                speed += 0.5f;
+                GameManager.GameManagerInstance.distanceMultipier += 0.01f;     
         }
     }
 
-   
+
 }
 
