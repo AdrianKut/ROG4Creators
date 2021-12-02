@@ -10,7 +10,7 @@ public enum PowerUpType
     SlowMotion = 50,
     Laser = 75,
     SuperAmmo = 100,
-    Nuke = 150
+    Nuke = 125
 }
 
 public class PowerUpManager : MonoBehaviour
