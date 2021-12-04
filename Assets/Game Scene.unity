@@ -5188,9 +5188,6 @@ MonoBehaviour:
   textPressAnyKeyToStart: {fileID: 403353195}
   PauseGameObject: {fileID: 1305732359}
   isPaused: 0
-  OnPauseEvent:
-    m_PersistentCalls:
-      m_Calls: []
   monster: {fileID: 5583648385075883854, guid: 586c7a550c25b204d989b100d2f1b9b6, type: 3}
   OnDestroyMoneyPig:
     m_PersistentCalls:

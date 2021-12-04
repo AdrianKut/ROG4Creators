@@ -21,19 +21,19 @@ public class LoopBackground : MonoBehaviour
         StartCoroutine(IncreaseSpeedBackground());
     }
 
-    private void LateUpdate()
+    private float increaseSpeedDelay = 10f;
+    private void Update()
     {
         if (GameManager.GameManagerInstance.isGameOver == false && GameManager.GameManagerInstance.isPaused == false)
         {
-            Vector3 newPos = new Vector3(transform.position.x - speed * Time.deltaTime, 4, 0);
-            transform.position = newPos;
+            transform.Translate(Vector3.left * Time.deltaTime * speed);
 
             if (transform.position.x <= xBound)
                 transform.position = startPos;
         }
     }
 
-    float increaseSpeedDelay = 10f;
+    
     IEnumerator IncreaseSpeedBackground()
     {
         while (true)

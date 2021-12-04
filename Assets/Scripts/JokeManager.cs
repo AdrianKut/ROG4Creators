@@ -20,7 +20,7 @@ public class JokeManager : MonoBehaviour
         jokes.Add("Where can I\nleave electro-waste?");
         jokes.Add("Did you know that\nI love marathons?");
         jokes.Add("I will always\n deliver hot rolls!");
-        jokes.Add("Noone girl wants\n to walk with me");
+        jokes.Add("Tag, you're it!");
         jokes.Add("It's seems I have lost \nfeeling in my legs");
         jokes.Add("When I was a child, \nI had to walk 10 km to school");
         jokes.Add("The girls used to run away from me\nbut now they have no chance.");

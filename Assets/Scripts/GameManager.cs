@@ -47,11 +47,11 @@ public class GameManager : MonoBehaviour
 
     private AudioSource audioSource;
 
+    public UnityEvent OnDestroyMoneyPig;
+
     public static GameManager GameManagerInstance;
     private void Awake()
     {
-        Application.targetFrameRate = 300;
-
         if (GameManagerInstance == null)
             GameManagerInstance = this;
 
@@ -186,20 +186,17 @@ public class GameManager : MonoBehaviour
     [Header("Pause")]
     public GameObject PauseGameObject;
     public bool isPaused = false;
-    public UnityEvent OnPauseEvent;
-
     public void Pause()
     {
         audioSource.Pause();
         PlayerGameObject.SetActive(false);
 
+        PlayerGameObject.transform.GetChild(1).GetComponent<LineRenderer>().enabled = false;
         isPaused = true;
-        OnPauseEvent?.Invoke();
 
         PauseGameObject.SetActive(true);
         Time.timeScale = 0f;
     }
-
 
     public void Resume()
     {
@@ -210,7 +207,7 @@ public class GameManager : MonoBehaviour
         PlayerGameObject.SetActive(true);
 
         isPaused = false;
-        OnPauseEvent?.Invoke();
+
         PauseGameObject.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -227,6 +224,8 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         SceneManager.LoadScene("Menu");
     }
+    
+    public void Retry() => SceneManager.LoadScene("Game Scene");
     #endregion
 
     public void GameOver()
@@ -235,7 +234,6 @@ public class GameManager : MonoBehaviour
         OnGameOverEvent?.Invoke();
     }
 
-    public void Retry() => SceneManager.LoadScene("Game Scene");
 
     //TO DELETE
     #region Debug
@@ -271,6 +269,4 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
-
-    public UnityEvent OnDestroyMoneyPig;
 }

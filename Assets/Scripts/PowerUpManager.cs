@@ -59,7 +59,6 @@ public class PowerUpManager : MonoBehaviour
 
         gameManager = GameManager.GameManagerInstance;
         gameManager.OnGameOverEvent.AddListener(HidePowerUpsUI);
-        gameManager.OnPauseEvent.AddListener(HidePowerUpsUI);
 
         PowerUpInitializaion();
     }
@@ -154,7 +153,10 @@ public class PowerUpManager : MonoBehaviour
     {
         isShieldActivated = true;
         var shield = Instantiate(GameObjectShield, GameObjectShield.transform.position, Quaternion.identity);
+        shield.transform.SetParent(player.transform);
+        shield.transform.localPosition = new Vector3(0f, -0.15f, 0f);
 
+        LeanTween.scale(shield, new Vector3(0.3f, 0.3f, 0.3f), 7f).setEasePunch();
         buttonShield.interactable = false;
 
         LeanTween.rotateAround(shield, Vector3.forward, 360, 1.75f).setLoopClamp();
@@ -171,7 +173,7 @@ public class PowerUpManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        LeanTween.scale(shield, new Vector3(0,0,0f), 7f).setEasePunch().setLoopPingPong();
+        LeanTween.scale(shield, new Vector3(0f,0f,0f), 7f).setEasePunch().setLoopPingPong();
         LeanTween.alpha(shield, 0f, 0.8f).setEase(LeanTweenType.easeOutQuad);
 
         Destroy(shield, 1f);
