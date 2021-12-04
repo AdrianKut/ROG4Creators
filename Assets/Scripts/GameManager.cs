@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("LEVEL UI")]
     public GameObject GameObjectLevelUI;
     public GameObject AskToExitGameObject;
+    public GameObject GameObjectPowerUpUI;
 
     [Header("Player")]
     public GameObject PlayerGameObject;
@@ -48,7 +50,6 @@ public class GameManager : MonoBehaviour
     public static GameManager GameManagerInstance;
     private void Awake()
     {
-
         Application.targetFrameRate = 300;
 
         if (GameManagerInstance == null)
@@ -59,18 +60,34 @@ public class GameManager : MonoBehaviour
     }
 
 
+    [SerializeField]
+    TextMeshProUGUI textPressAnyKeyToStart;
+    private bool isStarted;
     void Start()
     {
-        AudioListener.volume = 1f;
-        AudioListener.pause = false;
-
-        Time.timeScale = 1f;
+        HideUI();
+        Time.timeScale = 0f;
+        isStarted = false;
+    
         currentBestScore = PlayerPrefs.GetFloat("bestScore");
         UpdateBestScoreText();
     }
 
+
     private void Update()
     {
+        if (Input.anyKey && isStarted == false)
+        {
+            isStarted = true;
+            Time.timeScale = 1f;
+            AudioListener.volume = 1f;
+            AudioListener.pause = false;
+            audioSource.Play();
+
+            StartCoroutine("HideTextPressAnyKeyToStart");
+            ShowUI();
+        }
+
         if (!isPaused && !isGameOver)
         {
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
@@ -84,10 +101,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-
     void FixedUpdate()
     {
-        if (!isPaused && !isGameOver)
+        if (!isPaused && !isGameOver && isStarted)
         {
             UpdateTimerText();
             IncreaseMoneyPerSeconds();
@@ -114,6 +130,32 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    private IEnumerator HideTextPressAnyKeyToStart()
+    {
+        var gameObject = textPressAnyKeyToStart.gameObject;
+        textPressAnyKeyToStart.alpha = 1f;
+
+        LeanTweenExt.LeanAlphaText(textPressAnyKeyToStart, 0, 1.25f).setEaseOutSine();
+
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+    }
+
+
+    private void HideUI()
+    {
+        GameObjectLevelUI.SetActive(false);
+        PlayerGameObject.SetActive(false);
+        GameObjectPowerUpUI.SetActive(false);
+    }
+
+    private void ShowUI()
+    {
+        GameObjectLevelUI.SetActive(true);
+        PlayerGameObject.SetActive(true);
+        GameObjectPowerUpUI.SetActive(true);
+    }
+
 
     private void IncreaseMoneyPerSeconds()
     {
@@ -231,6 +273,4 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public UnityEvent OnDestroyMoneyPig;
-
-
 }

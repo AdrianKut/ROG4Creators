@@ -143,7 +143,7 @@ public class SpawnManager : MonoBehaviour
 
     private void ObjectToSpawn(int index)
     {
-        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(10f, 20f),
+        var _ = Instantiate(gameObjectsMonstersToSpawn[index], new Vector3(Random.Range(10.5f, 20.5f),
                         gameObjectsMonstersToSpawn[index].transform.position.y, 0f),
                         gameObjectsMonstersToSpawn[index].transform.rotation);
     }
@@ -182,8 +182,7 @@ public class SpawnManager : MonoBehaviour
         float spawnDelay;
         while (true)
         {
-            //            spawnDelay = Random.Range(20f, 60f);
-            spawnDelay = Random.Range(1f, 5f);
+            spawnDelay = Random.Range(20f, 60f);
             yield return new WaitForSeconds(spawnDelay);
             var randomPosX = Random.Range(10f, 20f);
             var randomPosY = Random.Range(8f, 9f);
