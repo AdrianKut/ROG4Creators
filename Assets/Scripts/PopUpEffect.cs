@@ -26,10 +26,10 @@ public class PopUpEffect : MonoBehaviour
     public void ReScale()
     {
         if (canRescale)
-            StartCoroutine(NewMethod());
+            StartCoroutine(ReScaleOnce());
     }
 
-    private IEnumerator NewMethod()
+    private IEnumerator ReScaleOnce()
     {
         canRescale = false;
 

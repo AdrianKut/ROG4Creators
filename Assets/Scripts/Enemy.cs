@@ -92,21 +92,16 @@ public class Enemy : MonoBehaviour
         if (this.gameObject.name.Contains("MoneyBank") == false)
         {
             if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Monster)
-            {
                 Die("shield");
-            }
+
             else if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Obstacle)
-            {
                 Die("shield");
-            }
+
             else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Monster)
-            {
                 Die("player");
-            }
+
             else if (other.gameObject.CompareTag("Player") && enemyType == EnemyType.Obstacle)
-            {
                 Die("obstacle");
-            }
         }
     }
 }

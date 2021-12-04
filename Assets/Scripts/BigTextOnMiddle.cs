@@ -15,6 +15,7 @@ public class BigTextOnMiddle : MonoBehaviour
     public AudioClip[] clips;
     // 0 - New Highscore 
     // 1 - Money money money 
+
     void Start()
     {
         GameManager.GameManagerInstance.OnHighscore.AddListener(DisplayTextHighScore);

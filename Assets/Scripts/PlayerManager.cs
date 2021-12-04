@@ -48,7 +48,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.GameManagerInstance.isGameOver)
         {
-
             audioSource.PlayOneShot(audioClip[1]);
             rb.AddForce(Vector2.up * forceJump, ForceMode2D.Force);
 

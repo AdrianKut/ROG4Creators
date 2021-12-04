@@ -20,7 +20,6 @@ public class SpawnManager : MonoBehaviour
 
     public float spawnMonsterDelay = 2.5f;
 
-
     private PowerUpManager powerUpManager;
     private void Awake()
     {
@@ -183,7 +182,8 @@ public class SpawnManager : MonoBehaviour
         float spawnDelay;
         while (true)
         {
-            spawnDelay = Random.Range(20f, 60f);
+            //            spawnDelay = Random.Range(20f, 60f);
+            spawnDelay = Random.Range(1f, 5f);
             yield return new WaitForSeconds(spawnDelay);
             var randomPosX = Random.Range(10f, 20f);
             var randomPosY = Random.Range(8f, 9f);
