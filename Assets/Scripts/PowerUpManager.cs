@@ -46,7 +46,7 @@ public class PowerUpManager : MonoBehaviour
     private void Awake()
     {
         if (PowerUpManagerInstance == null)
-            PowerUpManagerInstance = this;
+            PowerUpManagerInstance = this; 
     }
 
     void Start()
@@ -60,6 +60,16 @@ public class PowerUpManager : MonoBehaviour
         gameManager = GameManager.GameManagerInstance;
         gameManager.OnGameOverEvent.AddListener(HidePowerUpsUI);
         gameManager.OnPauseEvent.AddListener(HidePowerUpsUI);
+
+        PowerUpInitializaion();
+    }
+
+    private static void PowerUpInitializaion()
+    {
+        isShieldActivated = false;
+        isSlowMotionActivated = false;
+        isSuperAmmoActivated = false;
+        isLaserActivated = false;
     }
 
     private void Update()
@@ -208,8 +218,6 @@ public class PowerUpManager : MonoBehaviour
 
         buttonSuperAmmo.GetComponent<Button>().interactable = false;
 
-        rayCastWeapon.ChangeValueOfFireRate(0.15f);
-
         GameObject powerUpIcon;
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, superAmmoSprite, superAmmoDuration);
@@ -329,8 +337,6 @@ public class PowerUpManager : MonoBehaviour
         if (isSuperAmmoActivated)
         {
             rayCastWeapon.UseLaser();
-            rayCastWeapon.ChangeValueOfFireRate(0.15f);
-
             for (int i = laserDuration; i > 0; i--)
             {
                 textPowerUpDuration.SetText("" + i);
@@ -353,7 +359,6 @@ public class PowerUpManager : MonoBehaviour
         if (isSuperAmmoActivated)
         {
             rayCastWeapon.UseRifle();
-            rayCastWeapon.ChangeValueOfFireRate(0.15f);
         }
         else
             rayCastWeapon.UseRifle();

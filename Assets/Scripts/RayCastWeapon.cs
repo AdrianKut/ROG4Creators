@@ -60,10 +60,10 @@ public class RayCastWeapon : MonoBehaviour
     }
 
     public static int GetCurrentValueOfDamage() => damage;
-    public void ChangeValueOfFireRate(float value) => fireRate = value;
 
     private void Start()
     {
+        UseLaser();
         UseRifle();
     }
 
@@ -71,7 +71,11 @@ public class RayCastWeapon : MonoBehaviour
     {
         if (Input.GetButton("Fire1") && timer <= 0 && !GameManager.GameManagerInstance.isGameOver)
         {
-            timer = fireRate;
+            if (PowerUpManager.SuperAmmoActivated() == true)
+                timer = 0.15f;
+            else
+                timer = fireRate;
+
             if (currentWeapon == "laser")
                 StartCoroutine(LaserShoot());
             else if (currentWeapon == "rifle")
