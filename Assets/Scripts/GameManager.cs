@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverObject;
     public TextMeshProUGUI FinalScoreText;
     public TextMeshProUGUI NewHighScoreText;
+    private BigTextOnMiddle bigTextOnMiddle;
 
     public void IncreaseMoney(int moneyAmount) => money += moneyAmount;
     public void BuyPowerUpTypeAndDecreaseMoney(PowerUpType powerUpType) => money -= (int)powerUpType;
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         startPosPlayer = PlayerGameObject.transform.position;
+
     }
 
 
@@ -68,9 +70,11 @@ public class GameManager : MonoBehaviour
         HideUI();
         Time.timeScale = 0f;
         isStarted = false;
-    
+
         currentBestScore = PlayerPrefs.GetFloat("bestScore");
         UpdateBestScoreText();
+
+        bigTextOnMiddle = GameObject.Find("Big Text On Middle").GetComponent<BigTextOnMiddle>();
     }
 
 
@@ -98,7 +102,6 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
                 Resume();
         }
-
     }
 
     void FixedUpdate()
@@ -129,7 +132,12 @@ public class GameManager : MonoBehaviour
                 audioSource.Stop();
             }
         }
+
+        //Display Big text with reached distance
+        bigTextOnMiddle.DisplayAfterReachDistance((int)distanceCounter);
     }
+
+
     private IEnumerator HideTextPressAnyKeyToStart()
     {
         var gameObject = textPressAnyKeyToStart.gameObject;
@@ -224,7 +232,7 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         SceneManager.LoadScene("Menu");
     }
-    
+
     public void Retry() => SceneManager.LoadScene("Game Scene");
     #endregion
 
@@ -257,15 +265,16 @@ public class GameManager : MonoBehaviour
     private bool xd = false;
     public void IncreaseSpeed()
     {
-        xd = !xd;
         if (!xd)
         {
-            Time.timeScale *= 10f;
+            Time.timeScale *= 20f;
         }
         else if (xd)
         {
             Time.timeScale = 1f;
         }
+
+        xd = !xd;
 
     }
     #endregion
