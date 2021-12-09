@@ -83,7 +83,7 @@ public class BigTextOnMiddle : MonoBehaviour
 
     private void DisplayTextHighScore()
     {
-        text.text = "NEW HIGH SCORE!";
+        text.text = "NEW BEST SCORE!";
         text.color = Color.yellow;
         StartCoroutine("Display");
         audioSource.PlayOneShot(clips[0]);

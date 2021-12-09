@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject HelpUI;
+
+    [SerializeField]
+    private GameObject TopScoreUI;
 
     private void Start() => Time.timeScale = 1f;
 
@@ -22,6 +26,12 @@ public class MenuManager : MonoBehaviour
     {
         MenuUI.SetActive(false);
         HelpUI.SetActive(true);
+    }
+
+    public void OpenTopScoreUI()
+    {
+        MenuUI.SetActive(false);
+        TopScoreUI.SetActive(true);
     }
 
     public void OpenMenuUI()

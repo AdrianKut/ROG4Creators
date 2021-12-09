@@ -5,7 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 
-
 public class GameManager : MonoBehaviour
 {
     [Header("LEVEL UI")]
@@ -71,7 +70,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         isStarted = false;
 
-        currentBestScore = PlayerPrefs.GetFloat("bestScore");
+        currentBestScore = HighScoreManager.instance.scores[0];
+        //currentBestScore = PlayerPrefs.GetFloat("bestScore");
         UpdateBestScoreText();
 
         bigTextOnMiddle = GameObject.Find("Big Text On Middle").GetComponent<BigTextOnMiddle>();
@@ -122,19 +122,75 @@ public class GameManager : MonoBehaviour
                 GameObjectLevelUI.SetActive(false);
                 GameOverObject.SetActive(true);
 
-                //Save better distance score    
-                if (isNewHighScore)
+                //Save better distance score
+                if (checkOnceNewScore == false)
                 {
-                    PlayerPrefs.SetFloat("bestScore", distanceCounter);
-                    NewHighScoreText.SetText("NEW HIGH SCORE!");
+                    checkOnceNewScore = true;
+                    CheckYourScoreToLoeaderBoard();
                 }
-
                 audioSource.Stop();
             }
         }
 
         //Display Big text with reached distance
         bigTextOnMiddle.DisplayAfterReachDistance((int)distanceCounter);
+    }
+
+    [Header("HIGH SCORE")]
+    public GameObject GameObjectInputFieldTextHighScoreName;
+
+    public GameObject GameObjectButtonSaveNewHighScoreTextName;
+
+    public TextMeshProUGUI TextMeshProUGUINickname;
+
+    public GameObject GameObjectButtonsRetryExit;
+
+    private bool checkOnceNewScore = false;
+    private bool isNewScoreOnScoreBoard = false;
+    private int highScoreIndex;
+    private void CheckYourScoreToLoeaderBoard()
+    {
+        for (int i = 0; i < HighScoreManager.instance.scores.Length; i++)
+        {
+            if (isNewHighScore)
+            {
+                highScoreIndex = 0;
+
+                GameObjectButtonsRetryExit.SetActive(false);
+                GameObjectInputFieldTextHighScoreName.SetActive(true);
+
+                HighScoreManager.instance.scores[0] = distanceCounter;
+                HighScoreManager.instance.Save();
+                NewHighScoreText.SetText("NEW HIGH SCORE!");
+            }
+            else if (distanceCounter > HighScoreManager.instance.scores[i] && isNewScoreOnScoreBoard == false)
+            {
+                highScoreIndex = i;
+
+                GameObjectButtonsRetryExit.SetActive(false);
+                GameObjectInputFieldTextHighScoreName.SetActive(true);
+
+                HighScoreManager.instance.scores[i] = distanceCounter;
+                HighScoreManager.instance.Save();
+                NewHighScoreText.SetText("NEW HIGH SCORE!");
+                isNewScoreOnScoreBoard = true;
+                break;
+            }
+        }
+    }
+
+    public void SaveNewHighScoreTextName()
+    {
+        if (TextMeshProUGUINickname.text.Length == 1)
+            HighScoreManager.instance.textNames[highScoreIndex] = "ROG RUNNER";
+        else
+            HighScoreManager.instance.textNames[highScoreIndex] = TextMeshProUGUINickname.text;
+
+        HighScoreManager.instance.Save();
+
+        GameObjectInputFieldTextHighScoreName.SetActive(false);
+        GameObjectButtonSaveNewHighScoreTextName.SetActive(false);
+        GameObjectButtonsRetryExit.SetActive(true);
     }
 
 
