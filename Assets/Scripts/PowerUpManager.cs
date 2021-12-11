@@ -511,7 +511,8 @@ public class PowerUpManager : MonoBehaviour
     public void ActivateLensDistorion() => ActivateBadEffect("LENS DISTORTION");
     public void ActivateEcstasy() => ActivateBadEffect("?$#^@$!@S4");
 
-    private float timeBadEffects = 15f;
+    [SerializeField]
+    private float timeBadEffects = 10f;
 
     #region Bad Effects
     private void ActivateBadEffect(string nameOfBadEffect)
@@ -554,6 +555,7 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableFlippedCamera()
     {
+
         GameObject powerUpIcon;
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, badEffectSprite, 5);

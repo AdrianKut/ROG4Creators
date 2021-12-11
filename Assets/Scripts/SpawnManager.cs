@@ -202,8 +202,7 @@ public class SpawnManager : MonoBehaviour
         float spawnDelay;
         while (true)
         {
-            spawnDelay = Random.Range(1f, 2f);
-            //spawnDelay = Random.Range(90f, 120f);
+            spawnDelay = Random.Range(90f, 120f);
             yield return new WaitForSeconds(spawnDelay);
             var randomPosX = Random.Range(10f, 20f);
             var randomPosY = Random.Range(8f, 9f);

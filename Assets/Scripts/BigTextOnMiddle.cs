@@ -110,19 +110,20 @@ public class BigTextOnMiddle : MonoBehaviour
 
 
 
+    [SerializeField]
+    GameObject gameObjectMonster;
     private void DisplayMysteriousEffect()
     {
-
-        //string[] effects = { 
+        //string[] effects = {
         //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
-        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",  
+        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
         //    "?$#^@$!@S4","FLIPPED CAMERA", "LENS DISTORTION", "MONSTER",
         //    "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 
-        string[] effects = { "LASER" };
+        string[] effects = { "FLIPPED CAMERA" };
+
 
         int randomEffect = Random.Range(0, effects.Length);
-
         switch (effects[randomEffect])
         {
 
@@ -160,7 +161,7 @@ public class BigTextOnMiddle : MonoBehaviour
                 break;
 
             case "MONSTER":
-                
+                Instantiate(gameObjectMonster, gameObjectMonster.transform.position, Quaternion.identity);
                 break;
         }
 
