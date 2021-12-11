@@ -108,16 +108,23 @@ public class BigTextOnMiddle : MonoBehaviour
         StartCoroutine("Display");
     }
 
+
+
     private void DisplayMysteriousEffect()
     {
-        string[] effects = { "DARK MODE", "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO", "NOTHING", "?$#^@$!@S4", "Lens Distortion"};
+
+        //string[] effects = { 
+        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
+        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",  
+        //    "?$#^@$!@S4","FLIPPED CAMERA", "LENS DISTORTION", "MONSTER",
+        //    "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
+
+        string[] effects = { "LASER" };
+
         int randomEffect = Random.Range(0, effects.Length);
 
         switch (effects[randomEffect])
         {
-            case "DARK MODE":
-                Debug.Log("Dark mode");
-                break;
 
             case "SHIELD":
                 powerUpManager.ActivateShieldForFree();
@@ -141,9 +148,19 @@ public class BigTextOnMiddle : MonoBehaviour
 
             //ecstasy mode
             case "?$#^@$!@S4":
+                powerUpManager.ActivateEcstasy();
                 break;
 
-            case "Lens Distortion":
+            case "LENS DISTORTION":
+                powerUpManager.ActivateLensDistorion();
+                break;
+
+            case "FLIPPED CAMERA":
+                powerUpManager.ActivateFlippedCamera();
+                break;
+
+            case "MONSTER":
+                
                 break;
         }
 

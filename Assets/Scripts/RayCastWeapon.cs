@@ -128,6 +128,11 @@ public class RayCastWeapon : MonoBehaviour
                 if (enemy.name.Contains("MoneyBank"))
                     GameManager.GameManagerInstance.OnDestroyMoneyPig?.Invoke();
 
+                if (enemy.name.Contains("MysteriousBox"))
+                    GameManager.GameManagerInstance.OnDestroyMysteriousBox?.Invoke();
+
+
+
                 enemy.TakeDamage(damage);
                 impactGameObject = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
             }

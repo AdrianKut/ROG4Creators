@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
         isStarted = false;
 
         currentBestScore = HighScoreManager.instance.scores[0];
-        //currentBestScore = PlayerPrefs.GetFloat("bestScore");
         UpdateBestScoreText();
 
         bigTextOnMiddle = GameObject.Find("Big Text On Middle").GetComponent<BigTextOnMiddle>();

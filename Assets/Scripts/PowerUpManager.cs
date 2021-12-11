@@ -36,6 +36,9 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     Sprite nukeSprite;
 
+    [SerializeField]
+    Sprite badEffectSprite;
+
     private LoopBackground loopBackground;
     private GameManager gameManager;
     private AudioSource audioSource;
@@ -46,7 +49,7 @@ public class PowerUpManager : MonoBehaviour
     private void Awake()
     {
         if (PowerUpManagerInstance == null)
-            PowerUpManagerInstance = this; 
+            PowerUpManagerInstance = this;
     }
 
     void Start()
@@ -61,6 +64,7 @@ public class PowerUpManager : MonoBehaviour
         gameManager.OnGameOverEvent.AddListener(HidePowerUpsUI);
 
         PowerUpInitializaion();
+        SetDurationPowerUpsAtStart();
     }
 
     private static void PowerUpInitializaion()
@@ -69,6 +73,14 @@ public class PowerUpManager : MonoBehaviour
         isSlowMotionActivated = false;
         isSuperAmmoActivated = false;
         isLaserActivated = false;
+    }
+    
+    private void SetDurationPowerUpsAtStart()
+    {
+        shieldDurationAtStart = shieldDuration;
+        slowMotionDurationAtStart = slowMotionDuration;
+        superAmmoDurationAtStart = superAmmoDuration;
+        laserDurationAtStart = laserDuration;
     }
 
     private void Update()
@@ -131,6 +143,7 @@ public class PowerUpManager : MonoBehaviour
 
     [SerializeField]
     private short shieldDuration;
+    private short shieldDurationAtStart;
 
     [SerializeField]
     private float timeToRenewShield;
@@ -138,7 +151,14 @@ public class PowerUpManager : MonoBehaviour
     private static bool isShieldActivated = false;
     public static bool ShieldActivated() => isShieldActivated == true ? true : false;
 
-    public void ActivateShieldForFree() => StartCoroutine(EnableShield());
+    public void ActivateShieldForFree()
+    {
+        if (isShieldActivated == true)
+            shieldDuration = shieldDurationAtStart;
+        else
+            StartCoroutine(EnableShield());
+    }
+
     public void BuyShield()
     {
         if (gameManager.money >= (int)PowerUpType.Shield)
@@ -154,6 +174,9 @@ public class PowerUpManager : MonoBehaviour
     private IEnumerator EnableShield()
     {
         isShieldActivated = true;
+
+        shieldDuration = shieldDurationAtStart;
+
         var shield = Instantiate(GameObjectShield, GameObjectShield.transform.position, Quaternion.identity);
         shield.transform.SetParent(player.transform);
         shield.transform.localPosition = new Vector3(0f, -0.15f, 0f);
@@ -167,15 +190,15 @@ public class PowerUpManager : MonoBehaviour
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, shieldSprite, shieldDuration);
 
-        for (int i = shieldDuration; i > 0; i--)
+        for (; shieldDuration > 0; shieldDuration--)
         {
-            textPowerUpDuration.SetText("" + i);
+            textPowerUpDuration.SetText("" + shieldDuration);
             LeanTween.alpha(shield, 0.15f, 0.5f).setEase(LeanTweenType.easeOutQuad);
             LeanTween.alpha(shield, 1.0f, 0.25f).setDelay(0.25f).setEase(LeanTweenType.easeInQuad);
             yield return new WaitForSeconds(1f);
         }
 
-        LeanTween.scale(shield, new Vector3(0f,0f,0f), 7f).setEasePunch().setLoopPingPong();
+        LeanTween.scale(shield, new Vector3(0f, 0f, 0f), 7f).setEasePunch().setLoopPingPong();
         LeanTween.alpha(shield, 0f, 0.8f).setEase(LeanTweenType.easeOutQuad);
 
         Destroy(shield, 1f);
@@ -197,6 +220,7 @@ public class PowerUpManager : MonoBehaviour
 
     [SerializeField]
     private short superAmmoDuration;
+    private short superAmmoDurationAtStart;
 
     [SerializeField]
     private float timeToRenewSuperAmmo;
@@ -204,7 +228,14 @@ public class PowerUpManager : MonoBehaviour
     private static bool isSuperAmmoActivated = false;
     public static bool SuperAmmoActivated() => isSuperAmmoActivated == true ? true : false;
 
-    public void ActivateSuperAmmoForFree() => StartCoroutine(EnableSuperAmmo());
+    public void ActivateSuperAmmoForFree()
+    {
+        if (isSuperAmmoActivated == true)
+            superAmmoDuration = superAmmoDurationAtStart;
+        else
+            StartCoroutine(EnableSuperAmmo());
+    }
+
     public void BuySuperAmmo()
     {
         if (gameManager.money >= (int)PowerUpType.SuperAmmo)
@@ -220,6 +251,9 @@ public class PowerUpManager : MonoBehaviour
     private IEnumerator EnableSuperAmmo()
     {
         isSuperAmmoActivated = true;
+
+        superAmmoDuration = superAmmoDurationAtStart;
+
         var rayCastWeapon = player.GetComponent<RayCastWeapon>();
 
         buttonSuperAmmo.GetComponent<Button>().interactable = false;
@@ -228,9 +262,9 @@ public class PowerUpManager : MonoBehaviour
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, superAmmoSprite, superAmmoDuration);
 
-        for (int i = superAmmoDuration; i > 0; i--)
+        for (; superAmmoDuration > 0; superAmmoDuration--)
         {
-            textPowerUpDuration.SetText("" + i);
+            textPowerUpDuration.SetText("" + superAmmoDuration);
             yield return new WaitForSeconds(1f);
         }
 
@@ -260,12 +294,20 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     private float timeToRenewHighSpeed;
 
-    public short slowMotionDuration = 10;
+    [SerializeField]
+    public short slowMotionDuration;
+    public short slowMotionDurationAtStart;
+
     private static bool isSlowMotionActivated = false;
     public static bool SlowMotionActivated() => isSlowMotionActivated == true ? true : false;
 
-
-    public void ActivateSlowMoForFree() => StartCoroutine(EnableSlowMotion());
+    public void ActivateSlowMoForFree()
+    {
+        if (isSlowMotionActivated == true)
+            slowMotionDuration = superAmmoDurationAtStart;
+        else
+            StartCoroutine(EnableSlowMotion());
+    }
     public void BuySlowMotion()
     {
         if (gameManager.money >= (int)PowerUpType.SlowMotion)
@@ -281,6 +323,9 @@ public class PowerUpManager : MonoBehaviour
     private IEnumerator EnableSlowMotion()
     {
         isSlowMotionActivated = true;
+
+        superAmmoDuration = slowMotionDurationAtStart;
+
         OnSlowMotionActivated?.Invoke();
         var currentSpeedBackground = loopBackground.speed;
 
@@ -291,9 +336,9 @@ public class PowerUpManager : MonoBehaviour
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, highSpeedSprite, slowMotionDuration);
 
-        for (int i = slowMotionDuration; i > 0; i--)
+        for (; slowMotionDuration > 0; slowMotionDuration--)
         {
-            textPowerUpDuration.SetText("" + i);
+            textPowerUpDuration.SetText("" + slowMotionDuration);
             yield return new WaitForSeconds(1f);
         }
 
@@ -316,6 +361,7 @@ public class PowerUpManager : MonoBehaviour
 
     [SerializeField]
     private short laserDuration;
+    private short laserDurationAtStart;
 
     [SerializeField]
     private float timeToRenewLaser;
@@ -323,13 +369,25 @@ public class PowerUpManager : MonoBehaviour
     private static bool isLaserActivated = false;
     public static bool LaserActivated() => isLaserActivated == true ? true : false;
 
-    public void ActivateLaserForFree() => StartCoroutine(EnableLaser());
+    public void ActivateLaserForFree()
+    {
+        if (isLaserActivated == true)
+        {
+            laserDuration = laserDurationAtStart;
+        }
+        else
+            StartCoroutine(EnableLaser());
+    }
     public void BuyLaser()
     {
         if (gameManager.money >= (int)PowerUpType.Laser)
         {
             audioSource.Play();
             gameManager.BuyPowerUpTypeAndDecreaseMoney(PowerUpType.Laser);
+
+            var rayCastWeapon = player.GetComponent<RayCastWeapon>();
+            rayCastWeapon.UseLaser();
+
             StartCoroutine(EnableLaser());
         }
         else
@@ -338,29 +396,33 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator EnableLaser()
     {
-        buttonLaser.interactable = false;
         var rayCastWeapon = player.GetComponent<RayCastWeapon>();
+        rayCastWeapon.UseLaser();
+
+        isLaserActivated = true;
+        buttonLaser.interactable = false;
+
+        laserDuration = laserDurationAtStart;
 
         GameObject powerUpIcon;
         TextMeshProUGUI textPowerUpDuration;
         ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, laserSprite, laserDuration);
 
+
         if (isSuperAmmoActivated)
         {
-            rayCastWeapon.UseLaser();
-            for (int i = laserDuration; i > 0; i--)
+            for (; laserDuration > 0; laserDuration--)
             {
-                textPowerUpDuration.SetText("" + i);
+                textPowerUpDuration.SetText("" + laserDuration);
                 yield return new WaitForSeconds(1f);
             }
 
         }
         else
         {
-            rayCastWeapon.UseLaser();
-            for (int i = laserDuration; i > 0; i--)
+            for (; laserDuration > 0; laserDuration--)
             {
-                textPowerUpDuration.SetText("" + i);
+                textPowerUpDuration.SetText("" + laserDuration);
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -375,6 +437,7 @@ public class PowerUpManager : MonoBehaviour
             rayCastWeapon.UseRifle();
 
         yield return new WaitForSeconds(timeToRenewLaser);
+        isLaserActivated = false;
         buttonLaser.interactable = true;
     }
     #endregion
@@ -431,5 +494,98 @@ public class PowerUpManager : MonoBehaviour
         yield return new WaitForSeconds(timeToRenewNuke);
         buttonNuke.interactable = true;
     }
+    #endregion
+
+
+    [Header("Bad Effects")]
+    [SerializeField]
+    GameObject gameObjectFlippedCamera;
+
+    [SerializeField]
+    GameObject gameObjectLensDistortion;
+
+    [SerializeField]
+    GameObject gameObjectEcstasy;
+
+    public void ActivateFlippedCamera() => ActivateBadEffect("FLIPPED CAMERA");
+    public void ActivateLensDistorion() => ActivateBadEffect("LENS DISTORTION");
+    public void ActivateEcstasy() => ActivateBadEffect("?$#^@$!@S4");
+
+    private float timeBadEffects = 15f;
+
+    #region Bad Effects
+    private void ActivateBadEffect(string nameOfBadEffect)
+    {
+        switch (nameOfBadEffect)
+        {
+            //ecstasy mode
+            case "?$#^@$!@S4":
+                StartCoroutine(EnableEcstasy());
+                break;
+
+            case "LENS DISTORTION":
+                StartCoroutine(EnableLensDistortion());
+                break;
+
+            case "FLIPPED CAMERA":
+                StartCoroutine(EnableFlippedCamera());
+                break;
+        }
+
+    }
+
+    private IEnumerator EnableEcstasy()
+    {
+        GameObject powerUpIcon;
+        TextMeshProUGUI textPowerUpDuration;
+        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, badEffectSprite, 5);
+
+        gameObjectEcstasy.SetActive(true);
+        for (float i = timeBadEffects; i > 0; i--)
+        {
+            textPowerUpDuration.SetText("" + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        gameObjectEcstasy.SetActive(false);
+        Destroy(powerUpIcon);
+    }
+
+
+    private IEnumerator EnableFlippedCamera()
+    {
+        GameObject powerUpIcon;
+        TextMeshProUGUI textPowerUpDuration;
+        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, badEffectSprite, 5);
+
+        gameObjectFlippedCamera.SetActive(true);
+        for (float i = timeBadEffects; i > 0; i--)
+        {
+            textPowerUpDuration.SetText("" + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        gameObjectFlippedCamera.SetActive(false);
+        Destroy(powerUpIcon);
+    }
+
+
+    private IEnumerator EnableLensDistortion()
+    {
+        GameObject powerUpIcon;
+        TextMeshProUGUI textPowerUpDuration;
+        ShowPowerUpIconDuration(out powerUpIcon, out textPowerUpDuration, badEffectSprite, 5);
+
+        gameObjectLensDistortion.SetActive(true);
+        for (float i = timeBadEffects; i > 0; i--)
+        {
+            textPowerUpDuration.SetText("" + i);
+            yield return new WaitForSeconds(1f);
+        }
+
+        gameObjectLensDistortion.SetActive(false);
+        Destroy(powerUpIcon);
+    }
+
     #endregion
 }

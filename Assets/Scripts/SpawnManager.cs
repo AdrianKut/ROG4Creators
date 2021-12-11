@@ -8,6 +8,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     GameObject gameObjectMoneyBank;
 
+    [Header("Mysterious Box")]
+    [SerializeField]
+    GameObject gameObjectMysteriousBox;
+
     [Header("Obstacles")]
     [SerializeField]
     GameObject[] gameObjectsObstaclesToSpawn;
@@ -28,6 +32,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnObstacles());
         StartCoroutine(SpawnMoneyBank());
+        StartCoroutine(SpawnMysteriousBox());
 
         powerUpManager = PowerUpManager.PowerUpManagerInstance;
         powerUpManager.OnSlowMotionActivated.AddListener(DecreaseSpeedObjects);
@@ -188,6 +193,22 @@ public class SpawnManager : MonoBehaviour
             var randomPosY = Random.Range(8f, 9f);
 
             Instantiate(gameObjectMoneyBank, new Vector3(randomPosX,randomPosY,0f), Quaternion.identity);
+
+        }
+    }
+
+    IEnumerator SpawnMysteriousBox()
+    {
+        float spawnDelay;
+        while (true)
+        {
+            spawnDelay = Random.Range(1f, 2f);
+            //spawnDelay = Random.Range(90f, 120f);
+            yield return new WaitForSeconds(spawnDelay);
+            var randomPosX = Random.Range(10f, 20f);
+            var randomPosY = Random.Range(8f, 9f);
+
+            Instantiate(gameObjectMysteriousBox, new Vector3(randomPosX, randomPosY, 0f), Quaternion.identity);
 
         }
     }

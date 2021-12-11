@@ -28,7 +28,6 @@ public class BounceAndMoveLeft : MonoBehaviour
         }
         else if (this.gameObject.name.Contains("MoneyBank"))
         {
-
             GameManager.GameManagerInstance.OnDestroyMoneyPig?.Invoke();
         }
     }
