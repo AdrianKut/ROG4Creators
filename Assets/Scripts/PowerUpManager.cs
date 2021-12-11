@@ -137,6 +137,8 @@ public class PowerUpManager : MonoBehaviour
 
     private static bool isShieldActivated = false;
     public static bool ShieldActivated() => isShieldActivated == true ? true : false;
+
+    public void ActivateShieldForFree() => StartCoroutine(EnableShield());
     public void BuyShield()
     {
         if (gameManager.money >= (int)PowerUpType.Shield)
@@ -201,6 +203,8 @@ public class PowerUpManager : MonoBehaviour
 
     private static bool isSuperAmmoActivated = false;
     public static bool SuperAmmoActivated() => isSuperAmmoActivated == true ? true : false;
+
+    public void ActivateSuperAmmoForFree() => StartCoroutine(EnableSuperAmmo());
     public void BuySuperAmmo()
     {
         if (gameManager.money >= (int)PowerUpType.SuperAmmo)
@@ -259,6 +263,9 @@ public class PowerUpManager : MonoBehaviour
     public short slowMotionDuration = 10;
     private static bool isSlowMotionActivated = false;
     public static bool SlowMotionActivated() => isSlowMotionActivated == true ? true : false;
+
+
+    public void ActivateSlowMoForFree() => StartCoroutine(EnableSlowMotion());
     public void BuySlowMotion()
     {
         if (gameManager.money >= (int)PowerUpType.SlowMotion)
@@ -315,6 +322,8 @@ public class PowerUpManager : MonoBehaviour
 
     private static bool isLaserActivated = false;
     public static bool LaserActivated() => isLaserActivated == true ? true : false;
+
+    public void ActivateLaserForFree() => StartCoroutine(EnableLaser());
     public void BuyLaser()
     {
         if (gameManager.money >= (int)PowerUpType.Laser)
@@ -385,6 +394,8 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     GameObject gameObjectNuke;
 
+
+    public void ActivateNukeForFree() => StartCoroutine(EnableNuke());
     public void BuyNuke()
     {
         if (gameManager.money >= (int)PowerUpType.Nuke)

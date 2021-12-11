@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
     public UnityEvent OnDestroyMoneyPig;
+    public UnityEvent OnDestroyMysteriousBox;
 
     public static GameManager GameManagerInstance;
     private void Awake()
@@ -319,6 +320,7 @@ public class GameManager : MonoBehaviour
     }
 
     private bool xd = false;
+
     public void IncreaseSpeed()
     {
         if (!xd)

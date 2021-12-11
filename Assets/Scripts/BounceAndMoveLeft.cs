@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class MoneyBank : MonoBehaviour
+public class BounceAndMoveLeft : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;
 
     void Start()
     {
-        LeanTween.moveY(this.gameObject, 6f, 0.8f).setEaseInOutQuad().setLoopPingPong();    
+        LeanTween.moveY(this.gameObject, 6f, 0.8f).setEaseInOutQuad().setLoopPingPong();
     }
 
     void Update()
@@ -25,7 +22,15 @@ public class MoneyBank : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.GameManagerInstance.OnDestroyMoneyPig?.Invoke();
+        if (this.gameObject.name.Contains("MysteriousBox"))
+        {
+            GameManager.GameManagerInstance.OnDestroyMysteriousBox?.Invoke();
+        }
+        else if (this.gameObject.name.Contains("MoneyBank"))
+        {
+
+            GameManager.GameManagerInstance.OnDestroyMoneyPig?.Invoke();
+        }
     }
 
 }

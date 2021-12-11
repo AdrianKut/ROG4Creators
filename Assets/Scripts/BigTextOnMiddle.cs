@@ -16,15 +16,19 @@ public class BigTextOnMiddle : MonoBehaviour
     public AudioClip[] clips;
     // 0 - New Highscore 
     // 1 - Money money money 
+    // 2 - Mysterious 
 
     public Dictionary<float, string> distanceToReachDictionary = new Dictionary<float, string>();
 
     private GameManager gameManager;
+    private PowerUpManager powerUpManager;
     void Start()
     {
         gameManager = GameManager.GameManagerInstance;
+        powerUpManager = PowerUpManager.PowerUpManagerInstance;
         gameManager.OnHighscore.AddListener(DisplayTextHighScore);
         gameManager.OnDestroyMoneyPig.AddListener(DisplayTextExtraMoney);
+        gameManager.OnDestroyMysteriousBox.AddListener(DisplayMysteriousEffect);
 
         text = this.gameObject.GetComponent<TextMeshProUGUI>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
@@ -89,6 +93,7 @@ public class BigTextOnMiddle : MonoBehaviour
         audioSource.PlayOneShot(clips[0]);
     }
 
+
     private void DisplayTextExtraMoney()
     {
         int[] moneys = { 5, 5, 5, 10, 10, 15, 15, 20, 25, 50 };
@@ -103,6 +108,52 @@ public class BigTextOnMiddle : MonoBehaviour
         StartCoroutine("Display");
     }
 
+    private void DisplayMysteriousEffect()
+    {
+        string[] effects = { "DARK MODE", "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO", "NOTHING", "?$#^@$!@S4", "Lens Distortion"};
+        int randomEffect = Random.Range(0, effects.Length);
+
+        switch (effects[randomEffect])
+        {
+            case "DARK MODE":
+                Debug.Log("Dark mode");
+                break;
+
+            case "SHIELD":
+                powerUpManager.ActivateShieldForFree();
+                break;
+
+            case "LASER":
+                powerUpManager.ActivateLaserForFree();
+                break;
+
+            case "NUKE":
+                powerUpManager.ActivateNukeForFree();
+                break;
+
+            case "SLOW MOTION":
+                powerUpManager.ActivateSlowMoForFree();
+                break;
+
+            case "SUPER AMMO":
+                powerUpManager.ActivateSuperAmmoForFree();
+                break;
+
+            //ecstasy mode
+            case "?$#^@$!@S4":
+                break;
+
+            case "Lens Distortion":
+                break;
+        }
+
+
+        text.text = effects[randomEffect];
+        text.color = Color.grey;
+        StartCoroutine("Display");
+
+        audioSource.PlayOneShot(clips[2]);
+    }
 
     private IEnumerator Display()
     {

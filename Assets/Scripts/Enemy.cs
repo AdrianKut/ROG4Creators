@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (this.gameObject.name.Contains("MoneyBank") == false)
+        if (this.gameObject.name.Contains("MoneyBank") == false && this.gameObject.name.Contains("MysteriousBox") == false)
         {
             if (other.gameObject.CompareTag("Player") && PowerUpManager.ShieldActivated() && enemyType == EnemyType.Monster)
                 Die("shield");
