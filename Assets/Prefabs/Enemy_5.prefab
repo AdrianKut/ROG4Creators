@@ -315,7 +315,7 @@ MonoBehaviour:
   health: 100
   moveSpeed: 1.05
   deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
-  moneyAmount: 5
+  moneyAmount: 4
   enemyType: 0
 --- !u!60 &3511764957986305496
 PolygonCollider2D:

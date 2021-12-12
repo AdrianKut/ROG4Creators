@@ -496,7 +496,7 @@ public class PowerUpManager : MonoBehaviour
     }
     #endregion
 
-
+    #region Bad Effects
     [Header("Bad Effects")]
     [SerializeField]
     GameObject gameObjectFlippedCamera;
@@ -514,7 +514,6 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField]
     private float timeBadEffects = 10f;
 
-    #region Bad Effects
     private void ActivateBadEffect(string nameOfBadEffect)
     {
         switch (nameOfBadEffect)

@@ -172,6 +172,7 @@ public class BigTextOnMiddle : MonoBehaviour
     private IEnumerator Display()
     {
         transfom = this.gameObject.GetComponent<RectTransform>();
+        transfom.eulerAngles = Vector3.zero;    
         transfom.localScale = new Vector3(0, 0, 0);
         text.alpha = 1f;
 
@@ -181,7 +182,4 @@ public class BigTextOnMiddle : MonoBehaviour
         this.gameObject.LeanScale(new Vector3(0, 0, 0), 1f).setEaseInQuart();
         LeanTweenExt.LeanAlphaText(text, 0, 1f).setEase(LeanTweenType.linear);
     }
-
-
-
 }
