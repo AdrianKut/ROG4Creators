@@ -48,8 +48,8 @@ public class SpawnManager : MonoBehaviour
         gameObjectsMonstersToSpawn[2].GetComponent<Enemy>().SetSpeed(1f); // Enemy_5
         gameObjectsMonstersToSpawn[3].GetComponent<Enemy>().SetSpeed(1f); // Enemy_7
         gameObjectsMonstersToSpawn[4].GetComponent<Enemy>().SetSpeed(0.5f); // Enemy_6
-        gameObjectsMonstersToSpawn[5].GetComponent<Enemy>().SetSpeed(2f); // Enemy_3
-        gameObjectsMonstersToSpawn[6].GetComponent<Enemy>().SetSpeed(1f); // Enemy_4
+        gameObjectsMonstersToSpawn[5].GetComponent<Enemy>().SetSpeed(4f); // Enemy_3
+        gameObjectsMonstersToSpawn[6].GetComponent<Enemy>().SetSpeed(1.5f); // Enemy_4
 
     }
 
