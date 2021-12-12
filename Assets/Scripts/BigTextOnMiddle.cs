@@ -28,7 +28,7 @@ public class BigTextOnMiddle : MonoBehaviour
         powerUpManager = PowerUpManager.PowerUpManagerInstance;
         gameManager.OnHighscore.AddListener(DisplayTextHighScore);
         gameManager.OnDestroyMoneyPig.AddListener(DisplayTextExtraMoney);
-        gameManager.OnDestroyMysteriousBox.AddListener(DisplayMysteriousEffect);
+        gameManager.OnDestroyMysteriousBox.AddListener(DisplayAndActivateMysteriousEffect);
 
         text = this.gameObject.GetComponent<TextMeshProUGUI>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
@@ -45,8 +45,6 @@ public class BigTextOnMiddle : MonoBehaviour
         distanceToReachDictionary.Add(10000, "AWESOME!");
         distanceToReachDictionary.Add(20000, "CHEATER!");
     }
-
-
 
     public void DisplayAfterReachDistance(float distance)
     {
@@ -112,16 +110,14 @@ public class BigTextOnMiddle : MonoBehaviour
 
     [SerializeField]
     GameObject gameObjectMonster;
-    private void DisplayMysteriousEffect()
+    private void DisplayAndActivateMysteriousEffect()
     {
-        //string[] effects = {
-        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
-        //    "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
-        //    "?$#^@$!@S4","FLIPPED CAMERA", "LENS DISTORTION", "MONSTER",
-        //    "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
-
-        string[] effects = { "FLIPPED CAMERA" };
-
+        //4x nothing 4x bad effect 10x powerup
+        string[] effects = {
+            "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
+            "SHIELD", "LASER", "NUKE", "SLOW MOTION", "SUPER AMMO",
+            "?$#^@$!@S4","FLIPPED CAMERA", "LENS DISTORTION", "MONSTER",
+            "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 
         int randomEffect = Random.Range(0, effects.Length);
         switch (effects[randomEffect])
