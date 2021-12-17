@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -148,27 +149,29 @@ public class GameManager : MonoBehaviour
     private bool checkOnceNewScore = false;
     private bool isNewScoreOnScoreBoard = false;
     private int highScoreIndex;
+
     private void CheckYourScoreToLoeaderBoard()
     {
         for (int i = 0; i < HighScoreManager.instance.scores.Length; i++)
         {
-            if (isNewHighScore)
+            if (distanceCounter > HighScoreManager.instance.scores[i] && isNewScoreOnScoreBoard == false)
             {
-                highScoreIndex = 0;
+                var tempHighscoreResults = new float[5];
+                Array.Copy(HighScoreManager.instance.scores, tempHighscoreResults, 5);
 
-                GameObjectButtonsRetryExit.SetActive(false);
-                GameObjectInputFieldTextHighScoreName.SetActive(true);
+                var tempHighScoreNames = new string[5];
+                Array.Copy(HighScoreManager.instance.textNames, tempHighScoreNames, 5);
 
-                HighScoreManager.instance.scores[0] = distanceCounter;
-                HighScoreManager.instance.Save();
-                NewHighScoreText.SetText("NEW HIGH SCORE!");
-            }
-            else if (distanceCounter > HighScoreManager.instance.scores[i] && isNewScoreOnScoreBoard == false)
-            {
+                for (int j = i+1; j < tempHighScoreNames.Length; j++)
+                {
+                    HighScoreManager.instance.scores[j] = tempHighscoreResults[j-1];
+                    HighScoreManager.instance.textNames[j] = tempHighScoreNames[j - 1];
+                }
+
                 highScoreIndex = i;
-
                 GameObjectButtonsRetryExit.SetActive(false);
                 GameObjectInputFieldTextHighScoreName.SetActive(true);
+
 
                 HighScoreManager.instance.scores[i] = distanceCounter;
                 HighScoreManager.instance.Save();

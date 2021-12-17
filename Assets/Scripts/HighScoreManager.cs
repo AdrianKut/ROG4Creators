@@ -15,15 +15,6 @@ public class HighScoreManager : MonoBehaviour
     public string[] textNames = new string[5];
     public float[] scores = new float[5];
 
-
-    // ONLY FOR DEBUG
-    private void InitialStartScores()
-    {
-        textNames.ToList().ForEach(s => s = "");
-        scores.ToList().ForEach(s => s = 0);
-        Save();
-    }
-
     private void Awake()
     {
         Load();

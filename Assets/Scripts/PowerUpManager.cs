@@ -304,7 +304,7 @@ public class PowerUpManager : MonoBehaviour
     public void ActivateSlowMoForFree()
     {
         if (isSlowMotionActivated == true)
-            slowMotionDuration = superAmmoDurationAtStart;
+            slowMotionDuration = slowMotionDurationAtStart;
         else
             StartCoroutine(EnableSlowMotion());
     }
@@ -324,7 +324,7 @@ public class PowerUpManager : MonoBehaviour
     {
         isSlowMotionActivated = true;
 
-        superAmmoDuration = slowMotionDurationAtStart;
+        slowMotionDuration = slowMotionDurationAtStart;
 
         OnSlowMotionActivated?.Invoke();
         var currentSpeedBackground = loopBackground.speed;
