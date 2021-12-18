@@ -807,7 +807,7 @@ MonoBehaviour:
   health: 1000
   moveSpeed: 0.1
   deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}
-  moneyAmount: 25
+  moneyAmount: 40
   enemyType: 0
 --- !u!82 &6554556073280854185
 AudioSource:
